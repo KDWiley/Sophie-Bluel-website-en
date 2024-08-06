@@ -25,7 +25,7 @@ function displayImages(images) {
     const figureElement = document.createElement("figure");
 
     const imgElement = document.createElement("img");
-    imgElement.src = image.imageUrl; // Corrected property name
+    imgElement.src = image.imageUrl; 
     imgElement.alt = image.title || "Image";
     imgElement.dataset.id = image.id;
     imgElement.dataset.categoryId = image.categoryId;
