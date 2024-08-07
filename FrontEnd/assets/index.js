@@ -1,8 +1,9 @@
 // Get the DOM elements
 const gallery = document.querySelector(".gallery");
+const filterLinks = document.querySelectorAll(".filter_links a");
 
 // API URL
-const apiURL = "http://localhost:5678/api/works"; 
+const apiURL = "http://localhost:5678/api/works";
 
 // Function to fetch images
 async function fetchImages() {
@@ -25,7 +26,7 @@ function displayImages(images) {
     const figureElement = document.createElement("figure");
 
     const imgElement = document.createElement("img");
-    imgElement.src = image.imageUrl; 
+    imgElement.src = image.imageUrl;
     imgElement.alt = image.title || "Image";
     imgElement.dataset.id = image.id;
     imgElement.dataset.categoryId = image.categoryId;
@@ -40,6 +41,31 @@ function displayImages(images) {
     gallery.appendChild(figureElement);
   });
 }
+
+// Function to apply filter
+function applyFilter(category) {
+  const allImages = document.querySelectorAll(".gallery figure");
+
+  allImages.forEach((figure) => {
+    const categoryName = figure
+      .querySelector("img")
+      .dataset.categoryName.toLowerCase();
+    if (category === "all" || categoryName === category.toLowerCase()) {
+      figure.style.display = "block";
+    } else {
+      figure.style.display = "none";
+    }
+  });
+}
+
+// Event listeners for filter links
+filterLinks.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const category = e.target.dataset.filter;
+    applyFilter(category);
+  });
+});
 
 // Fetch images when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", fetchImages);
