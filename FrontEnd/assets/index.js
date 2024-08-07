@@ -1,6 +1,9 @@
 // Get the DOM elements
 const gallery = document.querySelector(".gallery");
 const filterLinks = document.querySelectorAll(".filter_links a");
+const loginLink = document.getElementById("login-link");
+const loginSection = document.getElementById("login");
+const mainContent = document.getElementById("main-content");
 
 // API URL
 const apiURL = "http://localhost:5678/api/works";
@@ -65,6 +68,30 @@ filterLinks.forEach((link) => {
     const category = e.target.dataset.filter;
     applyFilter(category);
   });
+});
+
+// Event listener for login link
+loginLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  mainContent.classList.add("hidden");
+  loginSection.style.display = "block";
+});
+
+// Event listener for login form submission
+document.getElementById("login-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  // Placeholder for actual login logic
+  if (username === "admin" && password === "password") {
+    alert("Login successful!");
+    mainContent.classList.remove("hidden");
+    loginSection.style.display = "none";
+  } else {
+    alert("Invalid username or password.");
+  }
 });
 
 // Fetch images when the DOM is fully loaded
