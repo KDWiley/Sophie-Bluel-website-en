@@ -81,11 +81,11 @@ loginLink.addEventListener("click", (e) => {
 document.getElementById("login-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const username = document.getElementById("username").value;
+  const username = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   // Placeholder for actual login logic
-  if (username === "admin" && password === "password") {
+  if (username === "admin@example.com" && password === "password") {
     alert("Login successful!");
     mainContent.classList.remove("hidden");
     loginSection.style.display = "none";
@@ -96,3 +96,4 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 
 // Fetch images when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", fetchImages);
+

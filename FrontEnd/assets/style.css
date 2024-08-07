@@ -87,12 +87,16 @@ h2{
 nav ul {
 	display: flex;
 	align-items: center;
-	list-style-type: none;
+	list-style: none;
 
 }
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+}
+
+li:visited {
+	list-style: none;
 }
 
 li:hover {
@@ -222,13 +226,18 @@ margin: auto;
 
 input[type="submit"]{
 	font-family: 'Syne';
-	font-weight: 700;
+	font-weight: bold;
 	color: white;
-	background-color: #1D6154;
+	background: darkgreen;
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 15px 15px 15px 15px;
+ 	border-style: solid;
+  	border-color: darkgreen;
+  	border-width: 1px;
+  	text-decoration: none;
+  	padding: 10px 20px 10px 20px;
 }
 
 footer nav ul {
@@ -243,4 +252,36 @@ footer nav ul {
 
 #login {
     display: none;
+}
+
+#login {
+	width: 50%;
+margin: auto;
+}
+#login > * {
+	text-align: center;
+
+}
+#login h2{
+	margin-bottom: 20px;
+}
+#login form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login label {
+	margin: 2em 0 1em 0;
+}
+#login textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
