@@ -125,6 +125,57 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filter {
+  display: flex;
+  justify-content: center; 
+  margin: 0em 0em 3em -3em;
+}
+
+.filter_links li {
+  list-style: none;
+  display: inline-block;
+  margin: 10px 10px;
+}
+
+.filter_links li a:link {
+  color: darkgreen;
+  font-weight: bold;
+  font-size: small;
+  border-style: solid;
+  border-radius: 15px 15px 15px 15px;
+  border-color: darkgreen;
+  border-width: 1px;
+  text-decoration: none;
+  padding: 10px 20px 10px 20px;
+}
+
+.filter_links li a:visited {
+  color: darkgreen;
+  font-weight: bold;
+  font-size: small;
+  background: darkgreen;
+  border-radius: 15px 15px 15px 15px;
+  border-style: solid;
+  border-color: darkgreen;
+  border-width: 1px;
+  text-decoration: none;
+  padding: 10px 10px 10px 10px;
+}
+
+.filter_links li a:hover {
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  background: darkgreen;
+  border-radius: 15px 15px 15px 15px;
+  border-style: solid;
+  border-color: darkgreen;
+  border-width: 1px;
+  text-decoration: none;
+  padding: 10px 10px 10px 10px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
