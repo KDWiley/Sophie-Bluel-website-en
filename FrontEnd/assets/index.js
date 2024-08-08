@@ -96,4 +96,3 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 
 // Fetch images when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", fetchImages);
-
