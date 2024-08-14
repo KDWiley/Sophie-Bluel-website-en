@@ -12,8 +12,8 @@ function fetch(apiURL) {
     .then((data) => {
       console.log(data);
       // Use the JSON data to get the image URL and display the image
-      const imageURL = data[2];
-      display_image(data[2]);
+      const imageURL = data[2].imageUrl;
+      display_image(imageURL);
     })
     // Catch any errors and log them
     .catch((error) => console.error("Error fetching image:", error));
