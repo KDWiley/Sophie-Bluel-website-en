@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>Sophie Bluel - Interior Designer</title>
@@ -12,21 +12,20 @@
     />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
-    <script defer src="assets/index.js"></script>
   </head>
   <body>
     <header>
       <h1>Sophie Bluel <span>Interior Designer</span></h1>
       <nav>
         <ul>
-          <li><a href="#portfolio">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#" id="login-link">Login</a></li>
+          <li>Projects</li>
+          <li>Contact</li>
+          <li>Login</li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
     </header>
-    <main id="main-content">
+    <main>
       <section id="introduction">
         <figure>
           <img src="./assets/images/sophie-bluel.png" alt="" />
@@ -51,7 +50,6 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>My Projects</h2>
         <div class="filter">
           <ul class="filter_links">
             <li><a href="#" data-filter="all">All</a></li>
@@ -64,7 +62,13 @@
             </li>
           </ul>
         </div>
-        <div class="gallery"></div>
+        <h2>My Projects</h2>
+        <div class="gallery">
+          <div id="image-container">
+            <img id="image-element" alt="Image from API" />
+          </div>
+          <script src="index.js"></script>"
+        </div>
       </section>
       <section id="contact">
         <h2>Contact</h2>
@@ -80,17 +84,7 @@
         </form>
       </section>
     </main>
-    <section id="login">
-      <h2>Login</h2>
-      <form id="login-form" action="#" method="post">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" required />
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required />
-        <input type="submit" value="Sign in" />
-       </form>
-       <h1>Forgot your password?</h1>
-    </section>
+
     <footer>
       <nav>
         <ul>
