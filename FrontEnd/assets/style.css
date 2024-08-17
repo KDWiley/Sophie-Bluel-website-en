@@ -255,17 +255,24 @@ li:hover {
   padding: 10px 20px 10px 20px;
 }
 
-.gallery {
+#image-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr; 
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+  justify-items: center;
+  margin: 0 auto;
+  padding: 0;
 }
 
-.gallery img {
+#image-container img {
   width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
+
 #contact {
   width: 50%;
   margin: auto;

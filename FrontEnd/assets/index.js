@@ -1,6 +1,7 @@
 // Get the DOM elements, Get the img element by its id - Line 68 in HTML
-const imgElement = document.getElementById("image-element");
-//console.log("Image element:", imgElement);
+//const imgElement = document.getElementById("image-element");
+const imgContainer = document.getElementById("image-container");
+const filterLinks = document.querySelector('#filter_links');
 
 // API URL
 const apiURL = "http://localhost:5678/api/works";
@@ -23,9 +24,9 @@ function fetchImages(apiURL) {
       })
 
       .then((data) => {
-        loopThroughImageURLs(data);
+        looptoDisplayImages(data);
         // Use the JSON data to get the image URL and display the image.  .then(data) is referring to the JSON data received from the previous promise
-        const imageURL = data[2].imageUrl;
+        const imageURL = data[i].imageUrl;
         displayImage(imageURL);
       })
 
@@ -33,20 +34,77 @@ function fetchImages(apiURL) {
       .catch((error) => console.error("Error fetching images:", error))
   );
 }
+
 //Loop
-function loopThroughImageURLs(data) {
+function looptoDisplayImages(data) {
   for (let i = 0; i < data.length; i++) {
-    let imageURL = data[i].imageUrl; // Assume data[i] contains image URL directly
-    displayImage(imageURL);
+    let imageURL = data[i].imageUrl;
+   var img = document.createElement('img');
+  img.src = imageURL;
+  document.getElementById('image-container').appendChild(img);
   }
 }
 
-// Function to display images
-function displayImage(imageURL) {
-  imgElement.src = imageURL;
+fetchImages(apiURL); // Fetch images when the DOM is fully loaded
+
+
+/*To filter we will need Boolean flag with the loop documet.addEventListener("click", acknowledgeClick);
+catergories.forEach(element => {
+    const domElement = document.createElement('span');
+    domElement.innerText = element.name;
+    docElement.classList.add()
+
+    filterContainer.appendChiled(domElement)
+})
+})
+
+
+
+function images {
+let x, i;
+x = document.getElementsByClassName("image-container");
+if (images === "all") images = "";
+for (i = 0; i <x.length; i++) {
+  removeClass(x[i], "show");
+  if(x[i].className.indexOf(images) > -1) addClass(x[i], "show")
+}
 }
 
-fetchImages(apiURL); // Fetch images when the DOM is fully loaded
+function addClass(element, name){
+    let i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++){
+      if(arr1.indexOf(arr2[i]) == -1){
+          element.className += " " + arr2[i];
+      }
+   }
+}
+
+function removeClass(element, name){
+    let i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++){
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1)
+      }
+}
+    element.className = arr1.join(" ")
+}
+
+
+    
+    // Assume data[i] contains image URL directly
+    // <!-- <img id="image-element" alt="Image from API" src="#" /> -->
+    //create an image tag
+    //add link from imageURL
+    //Add Alt tag from Title
+    //append image element to container
+  }
+}
+
+
 
 // Function to apply filter
 
@@ -54,4 +112,4 @@ fetchImages(apiURL); // Fetch images when the DOM is fully loaded
 
 // Event listener for login link
 
-// Event listener for login form submission
+// Event listener for login form submission*/
