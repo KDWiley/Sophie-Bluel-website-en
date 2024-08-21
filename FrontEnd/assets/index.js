@@ -1,7 +1,5 @@
-// Get the DOM elements, Get the img element by its id - Line 68 in HTML
-//const imgElement = document.getElementById("image-element");
-const imgContainer = document.getElementById("image-container");
-const filterLinks = document.querySelector('#filter_links');
+// Get the DOM element from Line 64 in HTML
+const imagesContainer = document.getElementById("image-container"); //container that holds all images
 
 // API URL
 const apiURL = "http://localhost:5678/api/works";
@@ -10,24 +8,25 @@ const apiURL = "http://localhost:5678/api/works";
 function fetchImages(apiURL) {
   // Make the fetch call When you call fetch(apiURL), it returns a promise that resolves to a Response object.
 
+  //possible upgrade to async
   //async function catchImages() {}
   //const response = await fetch(apiURL);
   //const json = await response.json();
   //document.getElementById("image-element");
 
   return (
-    fetch(apiURL) //By adding return in front of fetch(apiURL), you are ensuring that the Promise returned by fetch is also returned from the fetchImages function.
+    fetch(apiURL) //By adding return in front of fetch(apiURL), ensures Promise is returned by fetch.
       .then((response) => {
         console.log("Response object:", response);
         // Handle the response and convert it to JSON
         return response.json();
       })
 
-      .then((data) => {
-        looptoDisplayImages(data);
-        // Use the JSON data to get the image URL and display the image.  .then(data) is referring to the JSON data received from the previous promise
-        const imageURL = data[i].imageUrl;
-        displayImage(imageURL);
+      // .then(architectWorks) is referring to the JSON data from architectWorks received from the previous promise
+      .then((architectWorks) => {
+        looptoDisplayImages(architectWorks);
+       // const imageURL = architectWorks[i].imageUrl;
+       // displayImage(imageURL);
       })
 
       // Catch and log errors
@@ -36,80 +35,73 @@ function fetchImages(apiURL) {
 }
 
 //Loop
-function looptoDisplayImages(data) {
-  for (let i = 0; i < data.length; i++) {
-    let imageURL = data[i].imageUrl;
-   var img = document.createElement('img');
-  img.src = imageURL;
-  document.getElementById('image-container').appendChild(img);
+function looptoDisplayImages(architectWorks) {
+  for (let i = 0; i < architectWorks.length; i++) {
+    let imageURL = architectWorks[i].imageUrl;
+    let title = architectWorks[i].title;
+    let category = architectWorks[i].category.name;
+    let categoryId = architectWorks[i].categoryId;
+
+    var imageContainer = document.createElement("div"); //creating a div
+    imageContainer.className = "image-container"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
+    imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
+    imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+
+    var img = document.createElement("img");
+    img.src = imageURL;
+    img.alt = title;
+    imageContainer.appendChild(img);
+    imagesContainer.appendChild(imageContainer);
+
+    console.log("Category:", category);
+    console.log(imageContainer, img);
   }
 }
 
-fetchImages(apiURL); // Fetch images when the DOM is fully loaded
-
-
-/*To filter we will need Boolean flag with the loop documet.addEventListener("click", acknowledgeClick);
-catergories.forEach(element => {
-    const domElement = document.createElement('span');
-    domElement.innerText = element.name;
-    docElement.classList.add()
-
-    filterContainer.appendChiled(domElement)
-})
-})
-
-
-
-function images {
-let x, i;
-x = document.getElementsByClassName("image-container");
-if (images === "all") images = "";
-for (i = 0; i <x.length; i++) {
-  removeClass(x[i], "show");
-  if(x[i].className.indexOf(images) > -1) addClass(x[i], "show")
-}
-}
-
-function addClass(element, name){
-    let i, arr1, arr2;
-    arr1 = element.className.split(" ");
-    arr2 = name.split(" ");
-    for (i = 0; i < arr2.length; i++){
-      if(arr1.indexOf(arr2[i]) == -1){
-          element.className += " " + arr2[i];
-      }
-   }
-}
-
-function removeClass(element, name){
-    let i, arr1, arr2;
-    arr1 = element.className.split(" ");
-    arr2 = name.split(" ");
-    for (i = 0; i < arr2.length; i++){
-        while (arr1.indexOf(arr2[i]) > -1) {
-          arr1.splice(arr1.indexOf(arr2[i]), 1)
-      }
-}
-    element.className = arr1.join(" ")
-}
-
-
-    
-    // Assume data[i] contains image URL directly
-    // <!-- <img id="image-element" alt="Image from API" src="#" /> -->
-    //create an image tag
-    //add link from imageURL
-    //Add Alt tag from Title
-    //append image element to container
+function galleryFilter(filterSelected) {
+  let imageContainerCollection =
+    document.getElementsByClassName("image-container"); //getting all elements with class = image-container.  allows me to udpate the image-container .css class
+  // Loop through the imageContainers
+  for (let i = 0; i < imageContainerCollection.length; i++) {
+    let imageCategory = imageContainerCollection[i].dataset.category; //I don't like this.  I wish there was a more readable way to reference Category name
+    // if for comparison
+    if (filterSelected === "all" || imageCategory === filterSelected) {
+      imageContainerCollection[i].classList.add("hide"); // Add "show" class to display the image
+    } else {
+      imageContainerCollection[i].classList.remove("hide");
+    }
   }
 }
 
+// Function to set up event listeners for filter links
+function filterListeners() {
+  let filterLinks = document.querySelectorAll(".filter_links a");
 
+  // Add click event listener to each filter link
+  filterLinks.forEach((link) => {
+    //link refers the anchor tag
+    link.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default link behavior
 
-// Function to apply filter
+      // Get the filter value from the data-filter attribute
+      let filter = this.getAttribute("data-filter");
+
+      console.log("Filter selected:", filter);
+      console.log("Clicked element:", this);
+
+      // Call the galleryFilter function with the selected filter
+      galleryFilter(filter);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchImages(apiURL); // Fetch images when the DOM is fully loaded
+  filterListeners(); // Set up the event listeners for filters
+});
 
 // Event listeners for filter links
 
 // Event listener for login link
 
-// Event listener for login form submission*/
+// Event listener for login form submission

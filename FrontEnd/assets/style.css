@@ -255,7 +255,7 @@ li:hover {
   padding: 10px 20px 10px 20px;
 }
 
-#image-container {
+#image-container {  /*making the image-container and the image-container.show separate means #image-container will always display: grid* - 081924*/
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; 
@@ -264,6 +264,14 @@ li:hover {
   justify-items: center;
   margin: 0 auto;
   padding: 0;
+}
+
+.image-container {
+  display: block; 
+}
+
+.image-container.hide { 
+  display: none; 
 }
 
 #image-container img {
