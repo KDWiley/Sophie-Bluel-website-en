@@ -255,10 +255,11 @@ li:hover {
   padding: 10px 20px 10px 20px;
 }
 
-#image-container {  /*making the image-container and the image-container.show separate means #image-container will always display: grid* - 081924*/
+#image-container {
+  /*making the image-container and the image-container.show separate means #image-container will always display: grid* - 081924*/
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   justify-items: center;
@@ -267,11 +268,11 @@ li:hover {
 }
 
 .image-container {
-  display: block; 
+  display: block;
 }
 
-.image-container.hide { 
-  display: none; 
+.image-container.hide {
+  display: none;
 }
 
 #image-container img {
@@ -321,6 +322,66 @@ input[type="submit"] {
   width: 180px;
   text-align: center;
   border-radius: 60px;
+}
+
+#login {
+  width: 40%;
+  margin: auto;
+}
+#login > * {
+  text-align: center;
+}
+#login h2 {
+  margin-bottom: 20px;
+}
+#login form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#login input {
+  height: 50px;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#loginlabel {
+  margin: 2em 0 1em 0;
+}
+
+label[for="email"] {
+  margin: 0px 0px 10px 0px;
+}
+
+label[for="password"] {
+  margin: 0px 0px 10px 0px;
+}
+
+#login name {
+  margin-bottom: 10px;
+}
+#login textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+button[type="submit"] {
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  margin: 2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+}
+
+#forgotPassword {
+  font-size: 12px;
+  text-align: center;
 }
 
 footer nav ul {
