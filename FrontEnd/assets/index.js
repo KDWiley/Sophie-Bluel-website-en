@@ -72,32 +72,42 @@ function galleryFilter(filterSelected) {
     }
   }
 }
+document.addEventListener("DOMContentLoaded", () => {  //added 8/25
+  fetchImages(apiURL); // Fetch images when the DOM is fully loaded
 
-fetchImages(apiURL); // Fetch images when the DOM is fully loaded
+  // Show the edit button if the user is logged in .... updated order to here 8/25
+  if (localStorage.getItem("loggedIn") === "true") {
+    const editButton = document.getElementById("editButton");
+    if (editButton) {
+      editButton.classList.remove("editHidden");
+    }
+  }
+});
 
 // // Event listeners for filter links
-
 function filterListeners() {
   let filterLinks = document.querySelectorAll(".filter_links a");
-    filterLinks.forEach((link) => { //link in parethenses refers the filterLinks anchor tag
+  filterLinks.forEach((link) => {
+    //link in parethenses refers the filterLinks anchor tag
 
-link.addEventListener("click", function (event) {
-  event.preventDefault(); // Prevent default link behavior
-// Get the filter value from the data-filter attribute
-  let filter = this.getAttribute("data-filter");
-  console.log("Filter selected:", filter);
-  console.log("Clicked element:", this);
-//       // Call the galleryFilter function with the selected filter
-  galleryFilter(filter);
+    link.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default link behavior
+      // Get the filter value from the data-filter attribute
+      let filter = this.getAttribute("data-filter");
+      console.log("Filter selected:", filter);
+      console.log("Clicked element:", this);
+      //       // Call the galleryFilter function with the selected filter
+      galleryFilter(filter);
     });
- });
+  });
 }
 document.addEventListener("DOMContentLoaded", () => {
+  filterListeners(); // Set up the event listeners for filters
+});
 
-filterListeners(); // Set up the event listeners for filters
- });
-
-//When you login with correct credentials, take user to index.html.  If you enter wrong email and/or password give error. 
+//When you login with correct credentials, take user to index.html with the Edit Button.  How do you conditionally added the Edit Button?
+//User is given a token
+//  If you enter wrong email and/or password,  give a 401 error.
 //Where do you go if you forgot your password?
 //Event Listener for Login Page
 var form = document.querySelector("form");
@@ -107,56 +117,70 @@ form.addEventListener("submit", function (event) {
 
   console.log("Form submitted");
 
-let email = document.getElementById("email").value;
-let password = document.getElementById("password").value;
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
 
   console.log("Email:", email);
   console.log("Password:", password);
 
-// // Clear previous error messages
-document.getElementById("emailError").textContent = "";
-document.getElementById("passwordError").textContent = "";
-//document.getElementById("incorrectEmailPassword").textContent = "";
+  // // Clear previous error messages
+  document.getElementById("emailError").textContent = "";
+  document.getElementById("passwordError").textContent = "";
+  //document.getElementById("incorrectEmailPassword").textContent = "";
 
+  if (email === "sophie.bluel@test.tld" && password === "S0phie") {
+    console.log("Redirecting to index.html");
 
-if (email === "sophie.bluel@test.tld" && password === "S0phie") {
-  console.log("Redirecting to Google");
-  location.href = "index.html";
-} else {
-  console.log("Invalid credentials");
-  document.getElementById("feedback").textContent =
-    "Invalid email or password.";
-}
+    //TOKEN AUTHENTICATION
+    const authToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
+    localStorage.setItem("authToken", authToken);
+    console.log(authToken);
+
+    localStorage.setItem("loggedIn", "true");
+
+    location.href = "index.html";
+  } else {
+    console.log("Invalid credentials");
+    document.getElementById("feedback").textContent =
+      "Invalid email or password.";
+  }
+  //Show Edit Button after logging in
+  document.getElementById("editButton").classList.remove("editHidden");
+  console.log(editHidden);
 });
 
+//MODAL FUNCTION
 
+// const modal = document.querySelector(".modal");
+// const overlay = document.querySelector(".overlay");
+// const openModalBtn = document.querySelector(".btn-open");
+// const closeModalBtn = document.querySelector(".btn-close");
+// const imageForm = document.getElementByID("imageForm")
 
+// // open modal function
+// const openModal = function () {
+//   modal.classList.remove("hidden");
+//   overlay.classList.remove("hidden");
+// };
 
+// // close modal function
+// const closeModal = function () {
+//   modal.classList.add("hidden");
+//   overlay.classList.add("hidden");
+// };
 
+// // close the modal when the close button and overlay is clicked
+// openModalBtn.addEventListener("click", openModal)
+// closeModalBtn.addEventListener("click", closeModal);
+// overlay.addEventListener("click", closeModal);
 
+// // close modal when the Esc key is pressed
+// document.addEventListener("keydown", function (e) {
+//   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+//     closeModal();
+//   }
+// });
 
-
-
-
-
-
-
-
-
-//        //document.querySelector('login')
-//        //document.addEventListener('submit', function(event) {
-//        // event.preventDefault();
-
-//        // Event listener for login link
-
-//        //var button = document.querySelector("#submit");
-
-//        // else alert("Wrong User ID or Password!");
-
-//        //console.log("Login successful!");
-//        // isValid = true;
-
-//        // if (isValid) {
-//        //   document.getElementById('feedback').textContent = 'Login successful!';
-//        //             // Redirect or further processing can happen here
-//      };
+// // open modal event
+// openModalBtn.addEventListener("click", openModal);
