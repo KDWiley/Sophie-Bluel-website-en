@@ -138,49 +138,34 @@ form.addEventListener("submit", function (event) {
     console.log(authToken);
 
     localStorage.setItem("loggedIn", "true");
-
+ 
     location.href = "index.html";
+
   } else {
     console.log("Invalid credentials");
     document.getElementById("feedback").textContent =
       "Invalid email or password.";
   }
+
   //Show Edit Button after logging in
   document.getElementById("editButton").classList.remove("editHidden");
   console.log(editHidden);
 });
 
-//MODAL FUNCTION
+//Declaring modal DOM
+  var modal = document.querySelector(".modal");
+  var div = document.getElementById("editButton");
+  var span = document.querySelector(".close");
 
-// const modal = document.querySelector(".modal");
-// const overlay = document.querySelector(".overlay");
-// const openModalBtn = document.querySelector(".btn-open");
-// const closeModalBtn = document.querySelector(".btn-close");
-// const imageForm = document.getElementByID("imageForm")
+  // Open the modal
+  div.addEventListener("click", openModal);
+  function openModal() {
+    modal.style.display = "block";
+  }
 
-// // open modal function
-// const openModal = function () {
-//   modal.classList.remove("hidden");
-//   overlay.classList.remove("hidden");
-// };
-
-// // close modal function
-// const closeModal = function () {
-//   modal.classList.add("hidden");
-//   overlay.classList.add("hidden");
-// };
-
-// // close the modal when the close button and overlay is clicked
-// openModalBtn.addEventListener("click", openModal)
-// closeModalBtn.addEventListener("click", closeModal);
-// overlay.addEventListener("click", closeModal);
-
-// // close modal when the Esc key is pressed
-// document.addEventListener("keydown", function (e) {
-//   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-//     closeModal();
-//   }
-// });
-
-// // open modal event
-// openModalBtn.addEventListener("click", openModal);
+  // Close the modal
+  span.addEventListener("click", closeModal);
+  function closeModal() {
+    modal.style.display = "none";
+  }
+;
