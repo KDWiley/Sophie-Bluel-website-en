@@ -22,8 +22,8 @@
       <h1>Sophie Bluel <span>Interior Designer</span></h1>
       <nav>
         <ul>
-          <li>Projects</li>
-          <li>Contact</li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
           <li><a href="login.html">Login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
@@ -59,7 +59,9 @@
             <li><a href="#" data-filter="All">All</a></li>
             <li><a href="#" data-filter="Objects">Objects</a></li>
             <li><a href="#" data-filter="Apartments">Apartments</a></li>
-            <li><a href="#" data-filter="Hotels & restaurants">Hotels & Restaurants</a
+            <li>
+              <a href="#" data-filter="Hotels & restaurants"
+                >Hotels & Restaurants</a
               >
             </li>
           </ul>
@@ -67,8 +69,8 @@
         <div class="projectsTitle">
           <h2>My Projects</h2>
           <div id="editButton" class="editHidden">
-          <span class="material-symbols-outlined">edit_square</span>
-          <button class="btn btn-open">Edit</button>
+            <span class="material-symbols-outlined">edit_square</span>
+            <button class="btn btn-open">Edit</button>
           </div>
         </div>
         <div class="gallery">
@@ -90,33 +92,43 @@
           <input type="submit" value="Send" />
         </form>
       </section>
-      <section class="modal hidden">
-         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Upload Image</h2>
-            <input type="file" id="fileInput" accept="image/*" multiple> <!--this prompts for files-->
-            <div id="imageGallery" class="image-gallery"></div>
-        <div class="flex">
-          <h3>Image Gallery</h3>
-          <button class="btn-close">⨉</button>
-        </div>
-        <form id="imageForm">
-          <div>
-            <label for="imageUrl">Image URL:</label>
-            <input type="text" id="imageUrl" required />
-          </div>
-          <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" required />
-          </div>
-          <div>
-            <label for="category">Category:</label>
-            <input type="text" id="category" required />
-          </div>
-          <button type="submit" class="btn">Add a photo</button>
-        </form>
-      </section>
-    </div>
+      
+      <div id="modal" class="modal">
+        <div class="modal-content"></div>
+        <button class="closeModalBtn">⨉</button>
+        <h2>Photo Gallery</h2>
+        <input type="file" id="fileInput" accept="image/*" multiple />
+        <!--this prompts for files-->
+        <a class="thumbnails" href="#image-container">
+        </a>
+        <button type="submit" class="AddPhotoBtn">Add a photo</button>
+      </div>
+      <!--
+      <div id="modal2" class="modal">
+        <div class="modal-content"></div>
+        <button class="btn-close">⨉</button>
+        <h2>Add photo</h2>
+        <button type="submit" class="+AddPhotoBtn">+ Add photo</button>
+        <h2>jpg, png: max 4 MB</h2>
+        <label for="title-modal2">Title</label>
+        <input type="text" name="title" id="title-modal2" />
+        <label for="category-modal2">Category</label>
+        <input type="text" name="category" id="category-modal2" />
+        <button type="submit" class="Confirm">Confirm</button>
+      </div>
+
+      <div id="modal3" class="modal">
+        <div class="modal-content"></div>
+        <button class="btn-close">⨉</button>
+        <h2>Add photo</h2>
+        <button type="submit" class="+AddPhotoBtn">+ Add photo</button>
+        <h2>jpg, png: max 4 MB</h2>
+        <label for="title-modal3">Title</label>
+        <input type="text" name="title" id="title-modal3" />
+        <label for="category-modal3">Category</label>
+        <input type="text" name="category" id="category-modal3" />
+        <button type="submit" class="Confirm">Confirm</button>
+      </div>-->
     </main>
     <footer>
       <nav>
