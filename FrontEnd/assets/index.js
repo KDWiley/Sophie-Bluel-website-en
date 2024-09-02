@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 //POST request using fetch with error handling
-const emailElement = document.querySelector('#email');
-const passwordElement = document.querySelector('#password');
+const emailElement = document.querySelector('#loginEmail');
+const passwordElement = document.querySelector('#loginPassword');
 
 document.querySelector('form').addEventListener('submit', function(event) {
   event.preventDefault(); // Prevent the default form submission
@@ -181,6 +181,7 @@ fetch(url, authenticateOptions)
       console.error('There was an error!', error); // Handle the error
  });
 
+});
 //SCRATCH PAPER
 
 //const { users } = require("../../Backend/models"); this appear at top of js not sure where it came from
@@ -260,22 +261,30 @@ fetch(url, authenticateOptions)
 //       "Invalid email or password.";
 //   }
 
-  //Declaring modal DOM
-  let modal = document.querySelector(".modal");
-  let editButton = document.getElementById("editButton");
-  let closeBtn = document.getElementById(".closeModalBtn");
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.querySelector(".modal"); // Correctly selects the modal
+  const editButton = document.getElementById("editButton"); // Correctly selects the edit button
+  const closeBtn = document.querySelector(".closeModalBtn"); // Corrected selector for close button
 
   // Open modal
-    editButton.addEventListener("click", function () {
-      modal.style.display = "block";
-    });
+  editButton.addEventListener("click", function () {
+    modal.style.display = "block";
+    console.log("Modal is now open!"); // Log message for debugging
+  });
 
-    // Close modal
-    closeBtn.addEventListener("click", function () {
+  // Close modal when close button is clicked
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  // Close modal when clicking outside the modal content
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
       modal.style.display = "none";
-    });
-  }
-);
+    }
+  });
+});
+  
 
 
 //3 different modal windows.  Hide 2nd and 3rd when 1st is diplaying and so on. 
@@ -303,3 +312,4 @@ fetch(url, authenticateOptions)
   //async function catchImages() {
   //const response = await fetch(apiURL);
   //const json = await response.json();
+

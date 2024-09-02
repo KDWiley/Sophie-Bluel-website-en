@@ -231,6 +231,10 @@ nav a {
   display: none;
 }
 
+#editButton {
+  cursor: pointer; 
+}
+
 .btn.btn-open {                   /*Edit text next to My Projects title*/    
   color: black;
   font-weight: bold;
@@ -408,15 +412,16 @@ footer nav ul {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #loginlabel {
   margin: 2em 0 1em 0;
 }
 
-label[for="email"] {
+label[for="loginEmail"] {
   margin: 0px 0px 10px 0px;
 }
 
-label[for="password"] {
+label[for="loginPassword"] {
   margin: 0px 0px 10px 0px;
 }
 
@@ -451,7 +456,7 @@ button[type="submit"] {
 }
 
 /* Modal Window */
-.modal {
+#modal {
   display: none; 
   position: fixed; 
   left: 0;
@@ -459,6 +464,7 @@ button[type="submit"] {
   width: 100%; 
   height: 100%; 
   overflow: auto; 
+  z-index: 2;
   background-color: rgb(0,0,0); 
   background-color: rgba(0,0,0,0.4); 
 }
@@ -469,7 +475,7 @@ button[type="submit"] {
   padding: 20px;
   border: 1px solid #888;
   height: 45%;
-  width: 30%; 
+  width: 60%; 
   max-width: 800px;
   position: relative;
 }
@@ -479,14 +485,67 @@ button[type="submit"] {
   font-family: "Work Sans";
   color: black;
   font-weight: 300;
-  margin-top: 0px;
+  margin-top: 50px;
+}
+
+.modal H1 {
+  text-align: center;
+  font-family: "Work Sans";
+  color: black;
+  font-weight: 300;
+  margin-top: 50px;
+}
+
+.modal HR {
+  width: 70%;
+  height: 4px;
+  background-color: rgb(230, 223, 223);
+  margin-top: 600px;
+  display: flex;
+  border: 0 none;
+}
+
+#modal input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#modal form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+#modal label {
+  margin: 2em 0 1em 0;
+}
+
+#modal textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+label[for="title-modal2"] {
+  margin: 0px 0px 10px 0px;
+}
+
+label[for="category-modal2"] {
+  margin: 0px 0px 10px 0px;
 }
 
 .closeModalBtn  {
-  color: #aaa;
+  color: black;
+  background-color: white;
   float: right;
   font-size: 28px;
   font-weight: bold;
+  border: 0 none;
 }
 
 .close:hover,
@@ -498,11 +557,33 @@ button[type="submit"] {
 
 .AddPhotoBtn[type="submit"] {
   font-family: "Syne";
+  font-size: large;
   font-weight: 700;
   color: white;
   background-color: #1d6154;
-  margin: 10px 10px 10px 10px;
   width: 180px;
-  text-align: center;
+  margin-top: 50px;
+  padding-right: 6px;
+  padding-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   border-radius: 60px;
+}
+
+.confirmBtnGray[type="submit"] {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 100;
+  color: white;
+  background-color: gray;
+  width: 180px;
+  margin-top: 0px;
+  padding-right: 6px;
+  padding-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+  border: none;
 }

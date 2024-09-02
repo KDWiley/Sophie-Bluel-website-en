@@ -92,23 +92,37 @@
           <input type="submit" value="Send" />
         </form>
       </section>
-      
-      <div id="modal" class="modal">
-        <div class="modal-content"></div>
+     <!--<div id="modal" class="modal">
+        <div class="modal-content">
         <button class="closeModalBtn">⨉</button>
         <h2>Photo Gallery</h2>
-        <input type="file" id="fileInput" accept="image/*" multiple />
-        <!--this prompts for files-->
-        <a class="thumbnails" href="#image-container">
-        </a>
+        <div id="modal-image-container" class="image-container"></div>
+        <hr>
         <button type="submit" class="AddPhotoBtn">Add a photo</button>
+        </div>-->
       </div>
+       <div id="modal" class="modal">
+        <div class="modal-content">
+        <button class="closeModalBtn">⨉</button>
+        <h2>Add photo</h2>
+        <input type="file" id="fileInput" accept="image/*" multiple />
+        <h1>jpg, png: max 4 MB</h1>
+        <label for="title-modal2">Title</label>
+        <input type="text" name="title" id="title-modal2" />
+        <label for="category-modal2">Category</label>
+        <input type="text" name="category" id="category-modal2" />
+        <hr>
+        <button type="submit" class="confirmBtnGray">Confirm</button>
+        </div>
+      </div>
+
       <!--
       <div id="modal2" class="modal">
         <div class="modal-content"></div>
         <button class="btn-close">⨉</button>
         <h2>Add photo</h2>
         <button type="submit" class="+AddPhotoBtn">+ Add photo</button>
+        <input type="file" id="fileInput" accept="image/*" multiple />
         <h2>jpg, png: max 4 MB</h2>
         <label for="title-modal2">Title</label>
         <input type="text" name="title" id="title-modal2" />
