@@ -505,6 +505,33 @@ button[type="submit"] {
   border: 0 none;
 }
 
+#modalImagesContainer {
+  /*making the image-container and the image-container.show separate means #image-container will always display: grid* - 081924*/
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  justify-items: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#modalImagesContainer img {
+  width: 50%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.modalImageContainer{
+  display: block;
+}
+
+.modalImageContainer.hide {
+  display: none;
+}
+
 #modal input[type="text"] {
   width: 100%;
   padding: 10px;

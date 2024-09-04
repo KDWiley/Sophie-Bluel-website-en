@@ -54,16 +54,18 @@ function looptoDisplayImages(architectWorks) {
     img.alt = title;
     imageContainer.appendChild(img);
     imagesContainerElement.appendChild(imageContainer);
+    console.log("Created image container:", imageContainer); 
 
     //console.log("Category:", category);
-   //console.log(imageContainer, img);
+    //console.log(imageContainer, img);
   }
 }
 
 function galleryFilter(filterSelected) {
   let imageContainerCollection =
     document.getElementsByClassName("image-container"); //getting all elements with class = image-container.  allows me to udpate the image-container .css class
- // Loop through the imageContainers
+  console.log("Filter selected:", filterSelected); // Log selected filter
+  // Loop through the imageContainers
   for (let i = 0; i < imageContainerCollection.length; i++) {
     let imageCategory = imageContainerCollection[i].dataset.category; //I don't like this.  I wish there was a more readable way to reference Category name
     // if for comparison
@@ -126,9 +128,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
   const email = emailElement.value;
   const password = passwordElement.value;
 
-const url = "http://localhost:5678/api/users/login";
-
-//Fetch Options
+//Creating the object used to configure the http request for authentication
 const authenticateOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -137,12 +137,15 @@ const authenticateOptions = {
       password: password
     })
   };
+  console.log("Authenticate options:", authenticateOptions);
 
 //Fetch Request
-fetch(url, authenticateOptions)
+fetch("http://localhost:5678/api/users/login", authenticateOptions)
     .then(async response => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
+  console.log("Received response:", response);
         const data = isJson && await response.json();
+  console.log('Parsed response data:', data); // Log the parsed data
 
     // check for error response
     if (response.status !== 200) {
@@ -182,59 +185,13 @@ fetch(url, authenticateOptions)
  });
 
 });
+
 //SCRATCH PAPER
-
-//const { users } = require("../../Backend/models"); this appear at top of js not sure where it came from
-
-//   const response = await 
-
-//   console.log('about to fetch');
-// async function authenticate(email, password, url) {
-// const response  = await fetch("http://localhost:5678/api/users/login");
-
-// // check for error response
-//    if (!response.ok) { //if 200 response, do the function
-//      // get error message from body or default to response status
-//      const error = (data && data.message) || response.status;
-//      return Promise.reject(error);
-//         }
-
-//   element.innerHTML = data.id;
-//     })
-//     .catch(error => {
-//         element.parentElement.innerHTML = `Error: ${error}`;
-//         console.error('There was an error!', error);
-//     });
-// });
-
-// //
-
-
-
-//NOTES FROM MEETING
-//response
-
-//complete data stream - grab the data in the response
-
-// using this body 
-
-// {
-//   "email": email, 
-//   "password": password
-// }
-// 1. get auth token from response 
-// 2. store token in local storage
-
-
-//else show error message
-
-//use this, specifically looking at 3rd piece of code
 //https://jasonwatmore.com/post/2021/09/05/fetch-http-post-request-examples
 
+//pseudo-code!
 
-
-
-//ORIGINAL CODE
+//ORIGINAL CODE with hard-coded user authentication
 
 // form.addEventListener("submit", function (event) {
 //   event.preventDefault();
@@ -284,23 +241,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+  //Modal functionality for image thumbnail gallery --MY MAIN GALLERY HIDES WHEN I HAVE THIS ACTIVE - Need to debug
+//    const modalImagesContainer = document.getElementById("modalImagesContainer");
+//    function looptoDisplayImages(architectWorks) {
+//      for (let i = 0; i < architectWorks.length; i++) {
+//       let imageURL = architectWorks[i].imageUrl;
+//       let title = architectWorks[i].title;
+//       let category = architectWorks[i].category.name;
+//       let categoryId = architectWorks[i].categoryId;
+
+//       var imageContainer = document.createElement("div"); //creating a div
+//       imageContainer.className = "modalImageContainer"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
+//       imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
+//       imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+
+//       var img = document.createElement("img");
+//       img.src = imageURL;
+//       img.alt = title;
+//       imageContainer.appendChild(img);
+//       modalImagesContainer.appendChild(imageContainer);
   
-
-
-//3 different modal windows.  Hide 2nd and 3rd when 1st is diplaying and so on. 
-
-        // Modal functionality for image thumbnail gallery
-        // var modal = document.getElementById('myModal');
-        // var images = document.getElementsByClassName('myImages');
-        // var modalImg = document.getElementById("img01");
-
-        // for (var i = 0; i < images.length; i++) {
-        //     images[i].onclick = function(event) {
-        //         event.preventDefault(); // Prevent default anchor behavior
-        //         modal.style.display = "block";
-        //         modalImg.src = this.href;
-        //     }
-        // }
+      
+//     }
+// }
 
 // function fetchPics(){
 //     let catsImgDiv = document.querySelector(".catsImgDiv")
