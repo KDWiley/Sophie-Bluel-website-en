@@ -496,7 +496,7 @@ button[type="submit"] {
   margin-top: 50px;
 }
 
-.modal HR {
+.modal HR {                            /*modal line*/
   width: 70%;
   height: 4px;
   background-color: rgb(230, 223, 223);
@@ -505,8 +505,8 @@ button[type="submit"] {
   border: 0 none;
 }
 
-#modalImagesContainer {
-  /*making the image-container and the image-container.show separate means #image-container will always display: grid* - 081924*/
+#modal-image-container {
+  /*making the image-container and the image-container.hide separate means #image-container will always display: grid* - 081924*/
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -517,19 +517,26 @@ button[type="submit"] {
   padding: 0;
 }
 
-#modalImagesContainer img {
+#modal-image-container img {
   width: 50%;
   height: auto;
   display: block;
   object-fit: cover;
 }
 
-.modalImageContainer{
+.modal-image-container{
+  position: relative;
   display: block;
 }
 
-.modalImageContainer.hide {
-  display: none;
+.delete-button {
+  position: absolute; 
+  top: 5px; 
+  right: 5px; 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 20px; 
 }
 
 #modal input[type="text"] {
@@ -558,14 +565,6 @@ button[type="submit"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-label[for="title-modal2"] {
-  margin: 0px 0px 10px 0px;
-}
-
-label[for="category-modal2"] {
-  margin: 0px 0px 10px 0px;
-}
-
 .closeModalBtn  {
   color: black;
   background-color: white;
@@ -580,6 +579,14 @@ label[for="category-modal2"] {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+label[for="title-modal2and3"] {
+  margin: 0px 0px 10px 0px;
+}
+
+label[for="category-modal2and3"] {
+  margin: 0px 0px 10px 0px;
 }
 
 .AddPhotoBtn[type="submit"] {
@@ -598,12 +605,33 @@ label[for="category-modal2"] {
   border-radius: 60px;
 }
 
+/* Modal 2 Window */
+
 .confirmBtnGray[type="submit"] {
   font-family: "Syne";
   font-size: large;
   font-weight: 100;
   color: white;
   background-color: gray;
+  width: 180px;
+  margin-top: 0px;
+  padding-right: 6px;
+  padding-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+  border: none;
+}
+
+/* Modal 3 Window */
+
+.confirmBtnGreen[type="submit"] {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 100;
+  color: white;
+  background-color: #1d6154;
   width: 180px;
   margin-top: 0px;
   padding-right: 6px;

@@ -1,6 +1,6 @@
 
 
-// Get the DOM element from Line 64 in HTML
+// Get the image-container DOM element 
 const imagesContainerElement = document.getElementById("image-container"); //container that holds all images
 
 // API URL
@@ -110,14 +110,47 @@ document.addEventListener("DOMContentLoaded", () => {
   filterListeners(); // Set up the event listeners for filters
 });
 
+//SCRATCH PAPER for Authentication
+
+//https://jasonwatmore.com/post/2021/09/05/fetch-http-post-request-examples
+
+//pseudo-code
 //When you login with correct credentials, take user to index.html with the Edit Button.  
 //User is given a token
 //Where do you go if you forgot your password?
 //Event Listener for Login Page
 //var form = document.querySelector("form");
 
+//ORIGINAL CODE with hard-coded user authentication
+
+// form.addEventListener("submit", function (event) {
+//   event.preventDefault();
+//   console.log("Form submitted");
+
+//   let email = document.getElementById("email").value;
+//   let password = document.getElementById("password").value;
+
+//   if (email === "sophie.bluel@test.tld" && password === "S0phie") {
+//     console.log("Redirecting to index.html");
+
+//     //TOKEN AUTHENTICATION
+//     const authToken =
+//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
+//     localStorage.setItem("authToken", authToken);
+//     console.log(authToken);
+
+//     localStorage.setItem("loggedIn", "true");
+
+//     location.href = "index.html";
+//   } else {
+//     console.log("Invalid credentials");
+//     document.getElementById("feedback").textContent =
+//       "Invalid email or password.";
+//   }
+
 
 //POST request using fetch with error handling
+
 const emailElement = document.querySelector('#loginEmail');
 const passwordElement = document.querySelector('#loginPassword');
 
@@ -186,37 +219,35 @@ fetch("http://localhost:5678/api/users/login", authenticateOptions)
 
 });
 
-//SCRATCH PAPER
-//https://jasonwatmore.com/post/2021/09/05/fetch-http-post-request-examples
+//SCRATCH PAPER for Modal
+//Pseudo Code:
 
-//pseudo-code!
+//  MODAL 1
+//  1. Click Edit button --> Modal 1 displays "modal*image-container"
+//  3. Delete button event listener removes modalImageContainer. modalImageContainer.removeChild("modal-image-container");
+//  4. Click "add a photo" to advance to Modal 2.  
 
-//ORIGINAL CODE with hard-coded user authentication
+//  MODAL 2 
+//  1. Click "Add photo" --> input type="file" id="fileInput" accept="image/*" multiple
+//  2. Selecting image advances user to Modal 3.
+//  3. Back button event listener to Modal 1
 
-// form.addEventListener("submit", function (event) {
-//   event.preventDefault();
-//   console.log("Form submitted");
+//  MODAL 3
+//  1.  Present Title --> input type="text".  Category -->  architectWorks[i].category.name;
+//  2.  Back button event listener to Modal 2 
+//  3.  Confirm button event listener adds image, category, and title
+//         imageContainer.setAttribute("data-category", category);
+//             var img = document.createElement("img");
+//                  img.src = imageURL;
+//                  img.alt = title;
+//                  imageContainer.appendChild(img);
+//         imagesContainerElement.appendChild(imageContainer);
 
-//   let email = document.getElementById("email").value;
-//   let password = document.getElementById("password").value;
 
-//   if (email === "sophie.bluel@test.tld" && password === "S0phie") {
-//     console.log("Redirecting to index.html");
+//Common across all modals 
+//Click X to to close or click outside of modal
+//Modal size
 
-//     //TOKEN AUTHENTICATION
-//     const authToken =
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
-//     localStorage.setItem("authToken", authToken);
-//     console.log(authToken);
-
-//     localStorage.setItem("loggedIn", "true");
-
-//     location.href = "index.html";
-//   } else {
-//     console.log("Invalid credentials");
-//     document.getElementById("feedback").textContent =
-//       "Invalid email or password.";
-//   }
 
 document.addEventListener("DOMContentLoaded", function () {
   const modal = document.querySelector(".modal"); // Correctly selects the modal
@@ -243,37 +274,30 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
   //Modal functionality for image thumbnail gallery --MY MAIN GALLERY HIDES WHEN I HAVE THIS ACTIVE - Need to debug
-//    const modalImagesContainer = document.getElementById("modalImagesContainer");
-//    function looptoDisplayImages(architectWorks) {
-//      for (let i = 0; i < architectWorks.length; i++) {
-//       let imageURL = architectWorks[i].imageUrl;
-//       let title = architectWorks[i].title;
-//       let category = architectWorks[i].category.name;
-//       let categoryId = architectWorks[i].categoryId;
+   const modalImagesContainerElement = document.getElementById("modal-image-container");
+   function looptoDisplayImages(architectWorks) {
+     for (let i = 0; i < architectWorks.length; i++) {
+      let imageURL = architectWorks[i].imageUrl;
+      let title = architectWorks[i].title;
+      let category = architectWorks[i].category.name;
+      let categoryId = architectWorks[i].categoryId;
 
-//       var imageContainer = document.createElement("div"); //creating a div
-//       imageContainer.className = "modalImageContainer"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
-//       imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
-//       imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+      var modalImageContainer = document.createElement("div"); //creating a div
+      modalImageContainer.className = "modal-image-container"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
+      modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
+      modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
 
-//       var img = document.createElement("img");
-//       img.src = imageURL;
-//       img.alt = title;
-//       imageContainer.appendChild(img);
-//       modalImagesContainer.appendChild(imageContainer);
-  
-      
-//     }
-// }
+      var img = document.createElement("img");
+      img.src = imageURL;
+      img.alt = title;
 
-// function fetchPics(){
-//     let catsImgDiv = document.querySelector(".catsImgDiv")
-//     catsImgDiv.innerHTML='';
-//     fetch("https://api.thecatapi.com/v1/images/search") .then(
-//     (response)=>
-//      response.json()
+      var deleteButton = document.createElement("button");
+      deleteButton.className = "delete-button";
+      deleteButton.innerHTML = "🗑️"; 
 
-  //async function catchImages() {
-  //const response = await fetch(apiURL);
-  //const json = await response.json();
-
+      modalImageContainer.appendChild(img);
+      modalImageContainer.appendChild(deleteButton);
+      modalImagesContainerElement.appendChild(modalImageContainer);    
+      console.log("Created Modal image container:", modalImageContainer);
+    }
+}
