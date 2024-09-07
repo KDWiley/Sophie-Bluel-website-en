@@ -89,28 +89,39 @@
           <input type="submit" value="Send" />
         </form>
       </section>
-    <div id="modal" class="modal">
+    <!--<div id="modal" class="modal">
         <div class="modal-content">
         <button class="closeModalBtn">⨉</button>
         <h2>Photo Gallery</h2>
         <div id="modal-image-container"></div>
         <hr>
-        <button type="submit" class="AddPhotoBtn">Add a photo</button>
+        <button type="submit" class="greenModalBtn">Add a photo</button>
+        </div>
+      </div>-->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <button class="back-button">&larr;</button>
+          <button class="closeModalBtn">⨉</button>
+          <h2>Add photo</h2>
+          <div class="photo-upload">
+            <div class="photo-placeholder">
+              <span class="upload-icon">🖼️</span>
+              <button class="upload-button">+ Add photo</button>
+              <p>jpg, png max 4 MB</p>
+            </div>
+          </div>
+           <div class="form-group">
+                <input type="text" placeholder="Title" class="form-control">
+           </div>
+           <div class="form-group">
+                <select class="categoryDropdown">
+                    <option value="">Category</option>
+                    <!-- Add more categories as needed -->
+                </select>
+            </div>
+          <button class="grayModalBtn">Confirm</button>
         </div>
       </div>
-      <!--<div id="modal2" class="modal">
-        <div class="modal-content"></div>
-        <button class="btn-close">⨉</button>
-        <h2>Add photo</h2>
-        <button type="submit" class="+AddPhotoBtn">+ Add photo</button>
-        <input type="file" id="fileInput" accept="image/*" multiple />
-        <h2>jpg, png: max 4 MB</h2>
-        <label for="title-modal2and3">Title</label>
-        <input type="text" name="title" id="title-modal2and3" />
-        <label for="category-modal2and3">Category</label>
-        <input type="text" name="category" id="category-modal2and3" />
-        <button type="submit" class="confirmBtnGray">Confirm</button>
-      </div>-->
       <!--<div id="modal3" class="modal">
         <div class="modal-content"></div>
         <button class="btn-close">⨉</button>

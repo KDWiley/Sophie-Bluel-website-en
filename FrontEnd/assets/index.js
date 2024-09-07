@@ -27,6 +27,8 @@ function fetchImages(apiURL) {
       // .then(architectWorks) is referring to the JSON data from architectWorks received from the previous promise
       .then((architectWorks) => {
         looptoDisplayImages(architectWorks);
+        modalLooptoDisplayImages(architectWorks);
+        modalLooptoDisplayCategories(architectWorks)
         // const imageURL = architectWorks[i].imageUrl;
         // displayImage(imageURL);
       })
@@ -54,11 +56,12 @@ function looptoDisplayImages(architectWorks) {
     img.alt = title;
     imageContainer.appendChild(img);
     imagesContainerElement.appendChild(imageContainer);
-    console.log("Created image container:", imageContainer); 
-
-    //console.log("Category:", category);
-    //console.log(imageContainer, img);
+    if (imagesContainerElement.contains(imageContainer)) {
+    console.log("Image container appended successfully:", imageContainer);
+} else {
+    console.log("Image container was NOT appended.");
   }
+}
 }
 
 function galleryFilter(filterSelected) {
@@ -223,7 +226,7 @@ fetch("http://localhost:5678/api/users/login", authenticateOptions)
 //Pseudo Code:
 
 //  MODAL 1
-//  1. Click Edit button --> Modal 1 displays "modal*image-container"
+//  1. Click Edit button --> Modal 1 displays "modal-image-container"
 //  3. Delete button event listener removes modalImageContainer. modalImageContainer.removeChild("modal-image-container");
 //  4. Click "add a photo" to advance to Modal 2.  
 
@@ -257,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Open modal
   editButton.addEventListener("click", function () {
     modal.style.display = "block";
-    console.log("Modal is now open!"); // Log message for debugging
+    console.log("Modal is now open!");
   });
 
   // Close modal when close button is clicked
@@ -273,9 +276,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-  //Modal functionality for image thumbnail gallery --MY MAIN GALLERY HIDES WHEN I HAVE THIS ACTIVE - Need to debug
-   const modalImagesContainerElement = document.getElementById("modal-image-container");
-   function looptoDisplayImages(architectWorks) {
+//Modal functionality for Modal 1 image thumbnail gallery 
+const modalImagesContainerElement = document.getElementById("modal-image-container");
+
+   function modalLooptoDisplayImages(architectWorks) {
      for (let i = 0; i < architectWorks.length; i++) {
       let imageURL = architectWorks[i].imageUrl;
       let title = architectWorks[i].title;
@@ -283,9 +287,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let categoryId = architectWorks[i].categoryId;
 
       var modalImageContainer = document.createElement("div"); //creating a div
-      modalImageContainer.className = "modal-image-container"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
-      modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
-      modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+      modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
+      modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
+      modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
 
       var img = document.createElement("img");
       img.src = imageURL;
@@ -298,6 +302,38 @@ document.addEventListener("DOMContentLoaded", function () {
       modalImageContainer.appendChild(img);
       modalImageContainer.appendChild(deleteButton);
       modalImagesContainerElement.appendChild(modalImageContainer);    
-      console.log("Created Modal image container:", modalImageContainer);
+    if (modalImagesContainerElement.contains(modalImageContainer)) {
+      console.log("Modal Image container appended successfully:", modalImageContainer);
+    } else {
+      console.log("Modal Image container was NOT appended.");
+    }
     }
 }
+
+//Modal Categories
+const dropdown = document.getElementById("categoryDropdown");
+
+function modalLoopToDisplayCategories(architectWorks) {
+  const categories = []; // To collect categories for dropdown population
+
+  architectWorks.forEach((work) => {
+    let category = work.category.name;
+    let categoryId = work.categoryId;
+
+  populateDropdown(Array.from(categories)); // Convert Set to Array and populate dropdown
+});
+
+const populateDropdown = (categories) => {
+  dropdown.innerHTML = ''; // Clear previous options
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    dropdown.appendChild(option);
+  });
+};
+
+modalLoopToDisplayCategories(architectWorks);
+}
+
+//Function to feth categories from API

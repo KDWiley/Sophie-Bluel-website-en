@@ -456,6 +456,8 @@ button[type="submit"] {
 }
 
 /* Modal Window */
+
+/* Consistent across all modals START-------------------------------------------------------------------*/
 #modal {
   display: none; 
   position: fixed; 
@@ -472,7 +474,7 @@ button[type="submit"] {
 .modal-content {                   /*Puts modal in middle of page*/
   background-color: #fefefe;
   margin: 15% auto; 
-  padding: 20px;
+  padding: 75px;
   border: 1px solid #888;
   height: 45%;
   width: 60%; 
@@ -486,39 +488,59 @@ button[type="submit"] {
   color: black;
   font-weight: 300;
   margin-top: 50px;
+  margin-bottom: 35px;
 }
 
 .modal H1 {
   text-align: center;
   font-family: "Work Sans";
   color: black;
-  font-weight: 300;
-  margin-top: 50px;
+  font-weight: 100;
+  margin-top: 0px;
 }
 
 .modal HR {                            /*modal line*/
   width: 70%;
   height: 4px;
   background-color: rgb(230, 223, 223);
-  margin-top: 600px;
+  margin-top: 40px;
   display: flex;
   border: 0 none;
 }
 
+.closeModalBtn  {
+  color: black;
+  background-color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  border: 0 none;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Consistent across all modals END-------------------------------------------------------------------*/
+
+/*Modal 1 START --------------------------------------------------------------------------------------------*/
 #modal-image-container {
   /*making the image-container and the image-container.hide separate means #image-container will always display: grid* - 081924*/
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 10px;
   grid-row-gap: 20px;
   justify-items: center;
   margin: 0 auto;
+  margin-bottom: 10px;
   padding: 0;
 }
 
 #modal-image-container img {
-  width: 50%;
+  width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
@@ -533,14 +555,106 @@ button[type="submit"] {
   position: absolute; 
   top: 5px; 
   right: 5px; 
-  background: none; 
+  color: white;
+  background: black; 
   border: none; 
   cursor: pointer; 
   font-size: 20px; 
 }
 
+.greenModalBtn[type="submit"] {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  width: 180px;
+  margin-top: 50px;
+  padding-right: 6px;
+  padding-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+}
+/*Modal 1 END --------------------------------------------------------------------------------------------*/
+
+/*Modal 2 START --------------------------------------------------------------------------------------------*/
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.photo-upload {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.photo-placeholder {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.upload-icon {
+    font-size: 40px;
+    color: #ccc;
+}
+
+.upload-button {
+    background-color: #eee;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.upload-button:hover {
+    background-color: #ddd;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.grayModalBtn {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 100;
+  color: white;
+  background-color: gray;
+  width: 180px;
+  margin-top: 0px;
+  padding-right: 6px;
+  padding-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+  border: none;
+}
+
 #modal input[type="text"] {
-  width: 100%;
+  width: 10%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -565,80 +679,8 @@ button[type="submit"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-.closeModalBtn  {
-  color: black;
-  background-color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  border: 0 none;
-}
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
+/*Modal 2 END --------------------------------------------------------------------------------------------*/
 
-label[for="title-modal2and3"] {
-  margin: 0px 0px 10px 0px;
-}
 
-label[for="category-modal2and3"] {
-  margin: 0px 0px 10px 0px;
-}
-
-.AddPhotoBtn[type="submit"] {
-  font-family: "Syne";
-  font-size: large;
-  font-weight: 700;
-  color: white;
-  background-color: #1d6154;
-  width: 180px;
-  margin-top: 50px;
-  padding-right: 6px;
-  padding-left: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  border-radius: 60px;
-}
-
-/* Modal 2 Window */
-
-.confirmBtnGray[type="submit"] {
-  font-family: "Syne";
-  font-size: large;
-  font-weight: 100;
-  color: white;
-  background-color: gray;
-  width: 180px;
-  margin-top: 0px;
-  padding-right: 6px;
-  padding-left: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  border-radius: 60px;
-  border: none;
-}
-
-/* Modal 3 Window */
-
-.confirmBtnGreen[type="submit"] {
-  font-family: "Syne";
-  font-size: large;
-  font-weight: 100;
-  color: white;
-  background-color: #1d6154;
-  width: 180px;
-  margin-top: 0px;
-  padding-right: 6px;
-  padding-left: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  border-radius: 60px;
-  border: none;
-}
+/*Modal  END --------------------------------------------------------------------------------------------*/
