@@ -92,59 +92,58 @@
           <input type="submit" value="Send" />
         </form>
       </section>
-      <!--<div id="modal" class="modal">
-        <div class="modal-content">
-        <button class="closeModalBtn">⨉</button>
-        <h2>Photo Gallery</h2>
-        <div id="modal-image-container"></div>
-        <hr>
-        <button type="submit" class="greenModalBtn">Add a photo</button>
-        </div>
-      </div>-->
+      
       <div id="modal" class="modal">
         <div class="modal-content">
-          <button class="back-button">&larr;</button>
-          <button class="closeModalBtn">⨉</button>
-          <h2>Add photo</h2>
-          <div class="photo-upload">
+             <button class="closeModalBtn">⨉</button>
+
+          <div id="modal1-content" class="modal-specific-content hidden">
+            <h2>Photo Gallery</h2>
+             <div id="modal-image-container"></div>
+            <hr />
+             <button type="submit" class="greenModalBtn">Add a photo</button>
+          </div>
+
+          <div id="modal2-content" class="modal-specific-content hidden">
+           <button class="back-button">&larr;</button>
+           <h2>Add photo</h2>
+           <div class="photo-upload"></div>
             <div class="photo-placeholder">
               <span class="upload-icon">🖼️</span>
               <button class="upload-button">+ Add photo</button>
               <p>jpg, png max 4 MB</p>
             </div>
+            <div class="form-group">
+              <h1>Title</h1>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+              <h1>Category</h1>
+              <select class="categoryDropdown"></select>
+            </div>
+            <hr />
+            <button class="grayModalBtn">Confirm</button>
           </div>
-          <div class="form-group">
-            <h1>Title</h1>
-                <input type="text" class="form-control">
+
+          <div id="modal3-content" class="modal-specific-content hidden">
+             <button class="back-button">&larr;</button>
+             <button class="closeModalBtn">⨉</button>
+              <h2>Photo Gallery</h2>
+           <div class="photo-upload"></div>
+           <div class="photo-placeholder"></div>
+             <div class="form-group">
+                <h1>Title</h1>
+                <input type="text" class="form-control" />
+             </div>
+           <div class="form-group">
+              <h1>Category</h1>
+              <select class="categoryDropdown"></select>
+           </div>
+           <hr />
+           <button type="submit" class="greenModalBtn">Confirm</button>
           </div>
-          <div class="form-group">
-            <h1>Category</h1>
-                <select class="categoryDropdown">
-                </select>
-          </div>
-          <hr>
-          <button class="grayModalBtn">Confirm</button>
         </div>
       </div>
-      <!--<div id="modal" class="modal">
-        <div class="modal-content">
-          <button class="back-button">&larr;</button>
-          <button class="closeModalBtn">⨉</button>
-          <h2>Photo Gallery</h2>
-          <div class="photo-upload"></div>
-          <div class="photo-placeholder"></div>
-          <div class="form-group">
-            <h1>Title</h1>
-            <input type="text" class="form-control" />
-          </div>
-          <div class="form-group">
-            <h1>Category</h1>
-            <select class="categoryDropdown"></select>
-          </div>
-          <hr />
-          <button type="submit" class="greenModalBtn">Confirm</button>
-        </div>
-      </div>-->
     </main>
     <footer>
       <nav>

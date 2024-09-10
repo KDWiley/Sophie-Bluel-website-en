@@ -457,8 +457,17 @@ button[type="submit"] {
 /* Modal Window */
 
 /* Consistent across all modals START-------------------------------------------------------------------*/
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
 #modal {    /*Modal container*/
-  display: none;
+  display: none; /* Initially hidden new 090924*/ 
   position: fixed;
   left: 0;
   top: 0;
@@ -466,7 +475,6 @@ button[type="submit"] {
   height: 100%;
   overflow: hidden;
   z-index: 2;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -485,6 +493,20 @@ button[type="submit"] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.closeModalBtn {
+  color: black;
+  background-color: white;
+  margin-left: auto;
+  text-align: right;
+  font-size: 28px;
+  font-weight: bold;
+  border: 0 none;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .modal h2 {
@@ -509,27 +531,6 @@ button[type="submit"] {
   height: 2px;
   background-color: rgb(230, 223, 223);
   margin: 40px auto;  
-}
-
-.closeModalBtn {
-  color: black;
-  background-color: white;
-  margin-left: auto;
-  text-align: right;
-  font-size: 28px;
-  font-weight: bold;
-  border: 0 none;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
 }
 /* Consistent across all modals END-------------------------------------------------------------------*/
 
@@ -583,6 +584,7 @@ button[type="submit"] {
   justify-content: center;
   align-items: flex-end;
   border-radius: 60px;
+  cursor: pointer;
 }
 /*Modal 1 END --------------------------------------------------------------------------------------------*/
 
@@ -669,6 +671,7 @@ button[type="submit"] {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
 .form-group {
   display: flex;
   border-color: lightgray;
@@ -676,7 +679,7 @@ button[type="submit"] {
   align-items: center;
   justify-content: center;
   margin: 25px 0;
-  width: 600px; /* Fixed width */
+  width: 600px; 
   margin-bottom: 30px;
 }
 

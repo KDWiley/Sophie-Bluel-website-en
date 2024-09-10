@@ -336,3 +336,16 @@ function modalLoopToDisplayCategories(architectWorks) {
   modalLoopToDisplayCategories(architectWorks);
 }
 
+
+function showModal(modalId) {
+  document.querySelectorAll(".modal-specific-content").forEach(function (modal) {
+      modal.classList.add("hidden"); // Add hidden class
+      modal.classList.remove("visible"); // Remove visible class
+    });
+
+  document.getElementById(modalId).classList.remove("hidden"); // Remove hidden class
+  document.getElementById(modalId).classList.add("visible");
+
+  document.getElementById("modal").style.display = "block"; // Show modal
+}
+
