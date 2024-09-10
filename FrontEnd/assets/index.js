@@ -310,30 +310,29 @@ const modalImagesContainerElement = document.getElementById("modal-image-contain
     }
 }
 
-//Modal Categories
+//Modal Categories for Modal 2
 const dropdown = document.getElementById("categoryDropdown");
 
 function modalLoopToDisplayCategories(architectWorks) {
-  const categories = []; // To collect categories for dropdown population
+  const categories = new Set();
 
   architectWorks.forEach((work) => {
     let category = work.category.name;
     let categoryId = work.categoryId;
 
-  populateDropdown(Array.from(categories)); // Convert Set to Array and populate dropdown
-});
-
-const populateDropdown = (categories) => {
-  dropdown.innerHTML = ''; // Clear previous options
-  categories.forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category.id;
-    option.textContent = category.name;
-    dropdown.appendChild(option);
+    populateDropdown(Array.from(categories)); // Convert Set to Array and populate dropdown
   });
-};
 
-modalLoopToDisplayCategories(architectWorks);
+  const populateDropdown = (categories) => {
+    dropdown.innerHTML = ""; // Clear previous options
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
+      dropdown.appendChild(option);
+    });
+  };
+
+  modalLoopToDisplayCategories(architectWorks);
 }
 
-//Function to feth categories from API
