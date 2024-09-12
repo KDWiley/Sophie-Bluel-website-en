@@ -323,12 +323,11 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Modal 1 is open");
       });
   
-
-    // //Open modal 2, Close modal 1
-    // addaphotoModalBtn.addEventListener("click", function () {
-    //   showModal("modal2-content");
-    //   console.log("Modal 2 is open");
-    // });
+//Open modal 2, Close modal 1
+    addaphotoModalBtn.addEventListener("click", function () {
+       showModal("modal2-content");
+       console.log("Modal 2 is open");
+    });
 
     // //Open modal 3, Close modal 2 --when a photo, title, and category have been selected, change confirmModalBtn to grayModalBtn
     // confirmModalBtn.addEventListener("click", function () {
