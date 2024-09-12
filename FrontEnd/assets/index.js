@@ -1,6 +1,4 @@
-
-
-// Get the image-container DOM element 
+// Get the image-container DOM element
 const imagesContainerElement = document.getElementById("image-container"); //container that holds all images
 
 // API URL
@@ -28,7 +26,7 @@ function fetchImages(apiURL) {
       .then((architectWorks) => {
         looptoDisplayImages(architectWorks);
         modalLooptoDisplayImages(architectWorks);
-        modalLooptoDisplayCategories(architectWorks)
+        //modalLooptoDisplayCategories(architectWorks);
         // const imageURL = architectWorks[i].imageUrl;
         // displayImage(imageURL);
       })
@@ -57,11 +55,11 @@ function looptoDisplayImages(architectWorks) {
     imageContainer.appendChild(img);
     imagesContainerElement.appendChild(imageContainer);
     if (imagesContainerElement.contains(imageContainer)) {
-    console.log("Image container appended successfully:", imageContainer);
-} else {
-    console.log("Image container was NOT appended.");
+      console.log("Image container appended successfully:", imageContainer);
+    } else {
+      console.log("Image container was NOT appended.");
+    }
   }
-}
 }
 
 function galleryFilter(filterSelected) {
@@ -79,12 +77,13 @@ function galleryFilter(filterSelected) {
     }
   }
 }
-document.addEventListener("DOMContentLoaded", () => {  //added 8/25
+document.addEventListener("DOMContentLoaded", () => {
+  //added 8/25
   fetchImages(apiURL); // Fetch images when the DOM is fully loaded
 
-// Show the edit button if the user is logged in -- updated order to here 8/25
-    if (localStorage.getItem("loggedIn") === "true") {
-      const editButton = document.getElementById("editButton");
+  // Show the edit button if the user is logged in -- updated order to here 8/25
+  if (localStorage.getItem("loggedIn") === "true") {
+    const editButton = document.getElementById("editButton");
     if (editButton) {
       editButton.classList.remove("editHidden");
     }
@@ -118,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //https://jasonwatmore.com/post/2021/09/05/fetch-http-post-request-examples
 
 //pseudo-code
-//When you login with correct credentials, take user to index.html with the Edit Button.  
+//When you login with correct credentials, take user to index.html with the Edit Button.
 //User is given a token
 //Where do you go if you forgot your password?
 //Event Listener for Login Page
@@ -151,75 +150,73 @@ document.addEventListener("DOMContentLoaded", () => {
 //       "Invalid email or password.";
 //   }
 
-
 //POST request using fetch with error handling
 
-const emailElement = document.querySelector('#loginEmail');
-const passwordElement = document.querySelector('#loginPassword');
+const emailElement = document.querySelector("#loginEmail");
+const passwordElement = document.querySelector("#loginPassword");
 
-document.querySelector('form').addEventListener('submit', function(event) {
+document.querySelector("form").addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission
 
   // Get the input values
   const email = emailElement.value;
   const password = passwordElement.value;
 
-//Creating the object used to configure the http request for authentication
-const authenticateOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  //Creating the object used to configure the http request for authentication
+  const authenticateOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       email: email,
-      password: password
-    })
+      password: password,
+    }),
   };
   console.log("Authenticate options:", authenticateOptions);
 
-//Fetch Request
-fetch("http://localhost:5678/api/users/login", authenticateOptions)
-    .then(async response => {
-        const isJson = response.headers.get('content-type')?.includes('application/json');
-  console.log("Received response:", response);
-        const data = isJson && await response.json();
-  console.log('Parsed response data:', data); // Log the parsed data
+  //Fetch Request
+  fetch("http://localhost:5678/api/users/login", authenticateOptions)
+    .then(async (response) => {
+      const isJson = response.headers
+        .get("content-type")
+        ?.includes("application/json");
+      console.log("Received response:", response);
+      const data = isJson && (await response.json());
+      console.log("Parsed response data:", data); // Log the parsed data
 
-    // check for error response
-    if (response.status !== 200) {
-      //if 200 response, do the function
-      // get error message from body or default to response status
-      const error = (data && data.message) || response.status;
-      document.getElementById("feedback").textContent =
-        "Invalid email or password.";
-      return Promise.reject(error);
-    }
-            return data; // Return the data if the response is okay
+      // check for error response
+      if (response.status !== 200) {
+        //if 200 response, do the function
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        document.getElementById("feedback").textContent =
+          "Invalid email or password.";
+        return Promise.reject(error);
+      }
+      return data; // Return the data if the response is okay
     })
 
-   .then(data => {
-     
+    .then((data) => {
       const userId = data.userId;
       const token = data.token;
 
-       if (token) {
-        console.log('Authentication successful!');
-        console.log('User ID:', userId);
-        console.log('Token:', token)
+      if (token) {
+        console.log("Authentication successful!");
+        console.log("User ID:", userId);
+        console.log("Token:", token);
 
-                // You can store the token in local storage or use it for future requests
-        localStorage.setItem('authToken', token);  // Store the token for future use
+        // You can store the token in local storage or use it for future requests
+        localStorage.setItem("authToken", token); // Store the token for future use
         localStorage.setItem("loggedIn", "true");
 
-                // Redirect to the index.html page
+        // Redirect to the index.html page
         window.location.href = "index.html";
-
       } else {
-        console.error('No token returned from API');
+        console.error("No token returned from API");
       }
     })
- .catch(error => {
-      console.error('There was an error!', error); // Handle the error
- });
-
+    .catch((error) => {
+      console.error("There was an error!", error); // Handle the error
+    });
 });
 
 //SCRATCH PAPER for Modal
@@ -228,16 +225,16 @@ fetch("http://localhost:5678/api/users/login", authenticateOptions)
 //  MODAL 1
 //  1. Click Edit button --> Modal 1 displays "modal-image-container"
 //  3. Delete button event listener removes modalImageContainer. modalImageContainer.removeChild("modal-image-container");
-//  4. Click "add a photo" to advance to Modal 2.  
+//  4. Click "add a photo" to advance to Modal 2.
 
-//  MODAL 2 
+//  MODAL 2
 //  1. Click "Add photo" --> input type="file" id="fileInput" accept="image/*" multiple
 //  2. Selecting image advances user to Modal 3.
 //  3. Back button event listener to Modal 1
 
 //  MODAL 3
 //  1.  Present Title --> input type="text".  Category -->  architectWorks[i].category.name;
-//  2.  Back button event listener to Modal 2 
+//  2.  Back button event listener to Modal 2
 //  3.  Confirm button event listener adds image, category, and title
 //         imageContainer.setAttribute("data-category", category);
 //             var img = document.createElement("img");
@@ -246,106 +243,109 @@ fetch("http://localhost:5678/api/users/login", authenticateOptions)
 //                  imageContainer.appendChild(img);
 //         imagesContainerElement.appendChild(imageContainer);
 
-
-//Common across all modals 
+//Common across all modals
 //Click X to to close or click outside of modal
 //Modal size
 
+//Modal functionality for Modal 1 image thumbnail gallery --> Add a Delete button event listener to delete child from modal-image-container
+const modalImagesContainerElement = document.getElementById(
+  "modal-image-container"
+);
 
-document.addEventListener("DOMContentLoaded", function () {
-  const modal = document.querySelector(".modal"); // Correctly selects the modal
-  const editButton = document.getElementById("editButton"); // Correctly selects the edit button
-  const closeBtn = document.querySelector(".closeModalBtn"); // Corrected selector for close button
+function modalLooptoDisplayImages(architectWorks) {
+  for (let i = 0; i < architectWorks.length; i++) {
+    let imageURL = architectWorks[i].imageUrl;
+    let title = architectWorks[i].title;
+    let category = architectWorks[i].category.name;
+    let categoryId = architectWorks[i].categoryId;
 
-  // Open modal
-  editButton.addEventListener("click", function () {
-    modal.style.display = "block";
-    console.log("Modal is now open!");
-  });
+    var modalImageContainer = document.createElement("div"); //creating a div
+    modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
+    modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
+    modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
 
-  // Close modal when close button is clicked
-  closeBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-  });
+    var img = document.createElement("img");
+    img.src = imageURL;
+    img.alt = title;
 
-  // Close modal when clicking outside the modal content
-  window.addEventListener("click", function (event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-});
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "delete-button";
+    deleteButton.innerHTML = "🗑️";
 
-//Modal functionality for Modal 1 image thumbnail gallery 
-const modalImagesContainerElement = document.getElementById("modal-image-container");
-
-   function modalLooptoDisplayImages(architectWorks) {
-     for (let i = 0; i < architectWorks.length; i++) {
-      let imageURL = architectWorks[i].imageUrl;
-      let title = architectWorks[i].title;
-      let category = architectWorks[i].category.name;
-      let categoryId = architectWorks[i].categoryId;
-
-      var modalImageContainer = document.createElement("div"); //creating a div
-      modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
-      modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
-      modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
-
-      var img = document.createElement("img");
-      img.src = imageURL;
-      img.alt = title;
-
-      var deleteButton = document.createElement("button");
-      deleteButton.className = "delete-button";
-      deleteButton.innerHTML = "🗑️"; 
-
-      modalImageContainer.appendChild(img);
-      modalImageContainer.appendChild(deleteButton);
-      modalImagesContainerElement.appendChild(modalImageContainer);    
+    modalImageContainer.appendChild(img);
+    modalImageContainer.appendChild(deleteButton);
+    modalImagesContainerElement.appendChild(modalImageContainer);
     if (modalImagesContainerElement.contains(modalImageContainer)) {
-      console.log("Modal Image container appended successfully:", modalImageContainer);
+      console.log(
+        "Modal Image container appended successfully:",
+        modalImageContainer
+      );
     } else {
       console.log("Modal Image container was NOT appended.");
     }
-    }
+  }
 }
 
 //Modal Categories for Modal 2
-const dropdown = document.getElementById("categoryDropdown");
+//Need to create a function to take take an array of 'architectWorks' as an argument
+//modalLooptoDisplayCategories(architectWorks)
 
-function modalLoopToDisplayCategories(architectWorks) {
-  const categories = new Set();
+//Modal Categories for Modal 3 
+//Add photo button event listener to append child to modal-image-container
 
-  architectWorks.forEach((work) => {
-    let category = work.category.name;
-    let categoryId = work.categoryId;
-
-    populateDropdown(Array.from(categories)); // Convert Set to Array and populate dropdown
-  });
-
-  const populateDropdown = (categories) => {
-    dropdown.innerHTML = ""; // Clear previous options
-    categories.forEach((category) => {
-      const option = document.createElement("option");
-      option.value = category.id;
-      option.textContent = category.name;
-      dropdown.appendChild(option);
-    });
-  };
-
-  modalLoopToDisplayCategories(architectWorks);
-}
-
+// Function to show a specific modal
+const modal = document.querySelector(".modal");
 
 function showModal(modalId) {
-  document.querySelectorAll(".modal-specific-content").forEach(function (modal) {
-      modal.classList.add("hidden"); // Add hidden class
-      modal.classList.remove("visible"); // Remove visible class
+// Hide all modals by adding the 'hidden' class
+    document.getElementById("modal1-content").classList.add("hidden");
+    document.getElementById("modal2-content").classList.add("hidden");
+    document.getElementById("modal3-content").classList.add("hidden");
+
+const modalContent = document.getElementById(modalId); //when showModal function is called, showMal will use modal1-content as the modalID to show Modal 1
+    if (modalContent) {
+      modalContent.classList.remove("hidden"); // Remove the class that hides the modal
+      modal.style.display = "block"; // Show the modal container
+    }
+  }
+
+//Show-Hide Modals based on Event Listeners:  Edit Button = Show modal 1,
+document.addEventListener("DOMContentLoaded", function () {
+  const editButton = document.getElementById("editButton"); // Define button after DOM is loaded
+  const addaphotoModalBtn = document.querySelector(".addaphotoModalBtn"); // Define button after DOM is loaded
+  const confirmModalBtn = document.querySelector("#confirmModalBtn"); // Define button after DOM is loaded
+  const closeBtn = document.querySelector(".closeModalBtn");
+
+// Open modal 1
+    editButton.addEventListener("click", function () {
+        console.log("Edit button clicked");
+        showModal("modal1-content");
+        console.log("Modal 1 is open");
+      });
+  
+
+    // //Open modal 2, Close modal 1
+    // addaphotoModalBtn.addEventListener("click", function () {
+    //   showModal("modal2-content");
+    //   console.log("Modal 2 is open");
+    // });
+
+    // //Open modal 3, Close modal 2 --when a photo, title, and category have been selected, change confirmModalBtn to grayModalBtn
+    // confirmModalBtn.addEventListener("click", function () {
+    //   showModal("modal3-content");
+    //   console.log("Modal 3 is open");
+    // });
+
+    // Close modal when close button is clicked
+    closeBtn.addEventListener("click", function () {
+      modal.style.display = "none";
     });
 
-  document.getElementById(modalId).classList.remove("hidden"); // Remove hidden class
-  document.getElementById(modalId).classList.add("visible");
-
-  document.getElementById("modal").style.display = "block"; // Show modal
-}
+    // Close modal when clicking outside the modal content
+    window.addEventListener("click", function (event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+});
 

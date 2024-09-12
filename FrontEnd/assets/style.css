@@ -459,11 +459,11 @@ button[type="submit"] {
 /* Consistent across all modals START-------------------------------------------------------------------*/
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 .visible {
-  display: block !important;
+  display: block;
 }
 
 #modal {    /*Modal container*/
@@ -571,7 +571,7 @@ button[type="submit"] {
   font-size: 20px;
 }
 
-.greenModalBtn[type="submit"] {
+.addaphotoModalBtn[type="submit"] {
   font-family: "Syne";
   font-size: large;
   font-weight: 700;
@@ -622,7 +622,7 @@ button[type="submit"] {
   background-color: #ddd;
 }
 
-.grayModalBtn {
+.inactiveconfirmModalBtn {
   font-family: "Syne";
   font-size: large;
   font-weight: 100;
@@ -695,20 +695,6 @@ button[type="submit"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-.categoryDropdown {
-  width: 600px;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-  height: 50px;
-  font-size: 1.2em;
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
 #modal form {
   text-align: left;
   margin-top: 30px;
@@ -725,7 +711,21 @@ button[type="submit"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 /*Modal 3 START ------------------------------------------------------------------------------------------*/
-
+.activeconfirmModalBtn[type="submit"] {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  width: 180px;
+  margin-top: 50px;
+  padding: 10px 20px 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+  cursor: pointer;
+}
 
 
 
