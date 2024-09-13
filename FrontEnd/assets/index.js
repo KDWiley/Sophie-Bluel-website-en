@@ -71,9 +71,9 @@ function galleryFilter(filterSelected) {
     let imageCategory = imageContainerCollection[i].dataset.category; //I don't like this.  I wish there was a more readable way to reference Category name
     // if for comparison
     if (filterSelected === "all" || imageCategory === filterSelected) {
-      imageContainerCollection[i].classList.add("hide"); // Add "hide" class to hide the image
+      imageContainerCollection[i].classList.remove("hide"); // Add "hide" class to hide the image
     } else {
-      imageContainerCollection[i].classList.remove("hide");
+      imageContainerCollection[i].classList.add("hide");
     }
   }
 }
@@ -288,10 +288,22 @@ function modalLooptoDisplayImages(architectWorks) {
 
 //Modal Categories for Modal 2
 //Need to create a function to take take an array of 'architectWorks' as an argument
-//modalLooptoDisplayCategories(architectWorks)
+//function categoryDropdown.forEach(displayCategories)
 
-//Modal Categories for Modal 3 
-//Add photo button event listener to append child to modal-image-container
+//fetch from "http://localhost:5678/api/categories";
+
+//api post and delete of works will require token in local storage
+//Notes091224 word doc on desktop
+
+
+
+
+
+
+//remove this from uptop modalLooptoDisplayCategories(architectWorks)
+
+
+
 
 // Function to show a specific modal
 const modal = document.querySelector(".modal");
@@ -302,49 +314,57 @@ function showModal(modalId) {
     document.getElementById("modal2-content").classList.add("hidden");
     document.getElementById("modal3-content").classList.add("hidden");
 
-const modalContent = document.getElementById(modalId); //when showModal function is called, showMal will use modal1-content as the modalID to show Modal 1
-    if (modalContent) {
+const modalContent = document.getElementById(modalId); //when showModal function is called, showModal will pass modal1-content as the modalID to show Modal 1
       modalContent.classList.remove("hidden"); // Remove the class that hides the modal
       modal.style.display = "block"; // Show the modal container
-    }
   }
 
 //Show-Hide Modals based on Event Listeners:  Edit Button = Show modal 1,
 document.addEventListener("DOMContentLoaded", function () {
-  const editButton = document.getElementById("editButton"); // Define button after DOM is loaded
-  const addaphotoModalBtn = document.querySelector(".addaphotoModalBtn"); // Define button after DOM is loaded
-  const confirmModalBtn = document.querySelector("#confirmModalBtn"); // Define button after DOM is loaded
+  const editButton = document.getElementById("editButton");
+  const addaphotoModalBtn = document.querySelector(".addaphotoModalBtn");
+  const inactiveconfirmModalBtn = document.querySelector("inactiveconfirmModalBtn");
   const closeBtn = document.querySelector(".closeModalBtn");
+  const modal2Backbutton = document.querySelector(".modal2Backbutton");
+  const modal3Backbutton = document.querySelector(".modal3Backbutton");
 
-// Open modal 1
-    editButton.addEventListener("click", function () {
-        console.log("Edit button clicked");
-        showModal("modal1-content");
-        console.log("Modal 1 is open");
-      });
-  
-//Open modal 2, Close modal 1
-    addaphotoModalBtn.addEventListener("click", function () {
-       showModal("modal2-content");
-       console.log("Modal 2 is open");
-    });
+  // Open modal 1
+  editButton.addEventListener("click", function () {
+    showModal("modal1-content");
+    console.log("Modal 1 is open");
+  });
 
-    // //Open modal 3, Close modal 2 --when a photo, title, and category have been selected, change confirmModalBtn to grayModalBtn
-    // confirmModalBtn.addEventListener("click", function () {
-    //   showModal("modal3-content");
-    //   console.log("Modal 3 is open");
-    // });
+  //Open modal 2
+  addaphotoModalBtn.addEventListener("click", function () {
+    showModal("modal2-content");
+    console.log("Modal 2 is open");
+  });
 
-    // Close modal when close button is clicked
-    closeBtn.addEventListener("click", function () {
+  //Back Button from modal 2 to modal 1
+  modal2Backbutton.addEventListener("click", function () {
+    showModal("modal1-content");
+    console.log("Modal 1 is open");
+  });
+
+  // //Open modal 3 when a photo, title, and category have been selected, display pic in photo placeholder and change inactiveconfirmModalBtn to activeconfirmModalBtn
+
+
+  //Back Button from modal 3 to modal 2
+  modal3Backbutton.addEventListener("click", function () {
+    showModal("modal2-content");
+    console.log("Modal 2 is open");
+  });
+
+  // Close modal when close button is clicked
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  // Close modal when clicking outside the modal content
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
       modal.style.display = "none";
-    });
-
-    // Close modal when clicking outside the modal content
-    window.addEventListener("click", function (event) {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
+    }
+  });
 });
 

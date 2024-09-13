@@ -571,7 +571,7 @@ button[type="submit"] {
   font-size: 20px;
 }
 
-.addaphotoModalBtn[type="submit"] {
+.addaphotoModalBtn {
   font-family: "Syne";
   font-size: large;
   font-weight: 700;
@@ -627,7 +627,7 @@ button[type="submit"] {
   font-size: large;
   font-weight: 100;
   color: white;
-  background-color: lightgray;
+  background-color: lightgray !important;
   width: 180px;
   margin-top: 50px;
   padding: 10px 20px 10px 20px;
@@ -641,7 +641,7 @@ button[type="submit"] {
 .categoryDropdown {
   width: 600px;
   padding: 10px;
-  margin: 10px 0;
+  margin: 10px 0px 150px 0px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
@@ -651,10 +651,8 @@ button[type="submit"] {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-/*Modal 2 END --------------------------------------------------------------------------------------------*/
 
-/*Modal 2 & 3 Shared -------------------------------------------------------------------------------------*/
-.back-button {
+.modal2Backbutton {
   position: absolute;
   top: 20px; 
   left: 20px; 
@@ -666,7 +664,9 @@ button[type="submit"] {
   cursor: pointer; 
   padding: 5px; 
 }
+/*Modal 2 END --------------------------------------------------------------------------------------------*/
 
+/*Modal 2 & 3 Shared -------------------------------------------------------------------------------------*/
 .photo-placeholder {
   background-color: aliceblue;
   height: 200px;
@@ -728,9 +728,9 @@ button[type="submit"] {
 .activeconfirmModalBtn[type="submit"] {
   font-family: "Syne";
   font-size: large;
-  font-weight: 700;
+  font-weight: 100;
   color: white;
-  background-color: #1d6154;
+  background-color: lightgray !important;
   width: 180px;
   margin-top: 50px;
   padding: 10px 20px 10px 20px;
@@ -738,7 +738,20 @@ button[type="submit"] {
   justify-content: center;
   align-items: flex-end;
   border-radius: 60px;
-  cursor: pointer;
+  border: none;
+}
+
+.modal3Backbutton {
+  position: absolute;
+  top: 20px; 
+  left: 20px; 
+  background: none;
+  border: none; 
+  color: black; 
+  font-size: 24px; 
+  font-weight: bolder; 
+  cursor: pointer; 
+  padding: 5px; 
 }
 
 
