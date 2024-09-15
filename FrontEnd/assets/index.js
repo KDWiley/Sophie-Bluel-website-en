@@ -4,7 +4,7 @@ const imagesContainerElement = document.getElementById("image-container"); //con
 // API URL
 const apiURL = "http://localhost:5678/api/works";
 
-// Function to fetch images
+// Function to fetch images for main gallery
 function fetchImages(apiURL) {
   // Make the fetch call When you call fetch(apiURL), it returns a promise that resolves to a Response object.
 
@@ -36,7 +36,7 @@ function fetchImages(apiURL) {
   );
 }
 
-//Loop
+//Loop to display images
 function looptoDisplayImages(architectWorks) {
   for (let i = 0; i < architectWorks.length; i++) {
     let imageURL = architectWorks[i].imageUrl;
@@ -62,6 +62,7 @@ function looptoDisplayImages(architectWorks) {
   }
 }
 
+//Function to filter main gallery
 function galleryFilter(filterSelected) {
   let imageContainerCollection =
     document.getElementsByClassName("image-container"); //getting all elements with class = image-container.  allows me to udpate the image-container .css class
@@ -70,13 +71,14 @@ function galleryFilter(filterSelected) {
   for (let i = 0; i < imageContainerCollection.length; i++) {
     let imageCategory = imageContainerCollection[i].dataset.category; //I don't like this.  I wish there was a more readable way to reference Category name
     // if for comparison
-    if (filterSelected === "all" || imageCategory === filterSelected) {
-      imageContainerCollection[i].classList.remove("hide"); // Add "hide" class to hide the image
+    if (filterSelected === "All" || imageCategory === filterSelected) {
+      imageContainerCollection[i].classList.remove("hide"); 
     } else {
-      imageContainerCollection[i].classList.add("hide");
+      imageContainerCollection[i].classList.add("hide");  // Add "hide" class to hide the image
     }
   }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   //added 8/25
   fetchImages(apiURL); // Fetch images when the DOM is fully loaded
@@ -286,6 +288,87 @@ function modalLooptoDisplayImages(architectWorks) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  fetchCategories();
+});
+
+function fetchCategories() {
+fetch ("http://localhost:5678/api/categories")
+  .then((response) => response.json())
+  .then((data) => {
+      populateCategoryDropdown(data); //Pass fetched data to populated dropdown
+  })
+  .catch((error) => {
+    console.error("Error fetching categories:", error)
+  });
+}
+
+function populateCategoryDropdown(categories) {
+  const categoryDropdown = document.querySelector("#categorySelected"); //this is the dropdown element
+
+// Clear existing options and add the default placeholder of nothing per Figma design
+  categoryDropdown.innerHTML =
+    '<option value=""></option>';
+
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    categoryDropdown.appendChild(option);
+  });
+}
+
+const categoryIDElement = document.querySelector("#categoryIDSelected");
+const categoryElement = document.querySelector("#categorySelected");
+
+document.querySelector("form").addEventListener("submit", function (event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  // Get the input values
+ const categoryID = document.querySelector("#categorySelected").value;
+
+    // Retrieve the token from local storage
+  const token = localStorage.getItem("authToken");
+
+  if (!token) {
+    document.getElementById("feedback").textContent = "You must be logged in to make a selection.";
+    return; // Exit if the token is not available
+  }
+
+  //Creating the object used to configure the http request 
+  const categorySubmission= {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: categoryID,
+      name: document.querySelector("#categorySelected option:checked").text, // Get the selected category name
+    }),
+  };
+  console.log("CategorySelected:", categorySubmission);
+
+//Fetch Request
+  fetch("http://localhost:5678/api/categories", categorySubmission)
+    .then(async (response) => {
+      const isJson = response.headers
+        .get("content-type")
+        ?.includes("application/json");
+      console.log("Received response:", response);
+      const data = isJson && (await response.json());
+      console.log("Parsed response data:", data); // Log the parsed data
+
+      // check for error response
+      if (!response.ok) {
+        //if 200 response, do the function
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        document.getElementById("feedback").textContent =
+          "Unexpected Error";
+        return Promise.reject(error);
+      }
+      return data; // Return the data if the response is okay
+    })
+  });
+
 //Modal Categories for Modal 2
 //Need to create a function to take take an array of 'architectWorks' as an argument
 //function categoryDropdown.forEach(displayCategories)
@@ -294,13 +377,6 @@ function modalLooptoDisplayImages(architectWorks) {
 
 //api post and delete of works will require token in local storage
 //Notes091224 word doc on desktop
-
-
-
-
-
-
-//remove this from uptop modalLooptoDisplayCategories(architectWorks)
 
 
 

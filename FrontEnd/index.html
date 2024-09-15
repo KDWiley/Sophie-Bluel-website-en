@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Sophie Bluel - Interior Designer</title>
@@ -97,7 +97,7 @@
         <div class="modal-content">
              <button class="closeModalBtn">⨉</button>
              <!-- MODAL 1 -->
-             <div id="modal1-content" class="modal-specific-content hidden">
+          <div id="modal1-content" class="modal-specific-content hidden">
             <h2>Photo Gallery</h2>
              <div id="modal-image-container"></div>
             <hr />
@@ -114,15 +114,14 @@
               <p>jpg, png max 4 MB</p>
             </div>
             <div class="form-group">
-              <h1>Title</h1>
+             <h1>Title</h1>
               <input type="text" class="form-control" />
+             <h1>Category</h1>
+              <select id="categorySelected" class="categoryDropdown">
+              </select>
+              <hr />
+              <button type="submit" class="inactiveconfirmModalBtn">Confirm</button>
             </div>
-            <div class="form-group">
-              <h1>Category</h1>
-              <select class="categoryDropdown"></select>
-            </div>
-            <hr />
-            <button type="submit" class="inactiveconfirmModalBtn">Confirm</button>
           </div>
              <!-- MODAL 3 -->
           <div id="modal3-content" class="modal-specific-content hidden">
@@ -133,13 +132,9 @@
              <div class="form-group">
                 <h1>Title</h1>
                 <input type="text" class="form-control" />
-             </div>
-           <div class="form-group">
-              <h1>Category</h1>
-              <select class="categoryDropdown"></select>
-           </div>
-           <hr />
-           <button type="submit" class="activeconfirmModalBtn">Confirm</button>
+              </div>
+                <hr />
+            <button type="submit" class="activeconfirmModalBtn">Confirm</button>
           </div>
         </div>
       </div>
