@@ -466,8 +466,9 @@ button[type="submit"] {
   display: block;
 }
 
-#modal {    /*Modal container*/
-  display: none; /* Initially hidden new 090924*/ 
+#modal {
+  /*Modal container*/
+  display: none; /* Initially hidden new 090924*/
   position: fixed;
   left: 0;
   top: 0;
@@ -484,10 +485,10 @@ button[type="submit"] {
   margin: 10% auto;
   padding: 75px;
   border: 1px solid #888;
-  width: 800px; 
-  height: 900px; 
-  max-width: 90%; 
-  max-height: 80%; 
+  width: 800px;
+  height: 900px;
+  max-width: 90%;
+  max-height: 80%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -530,7 +531,7 @@ button[type="submit"] {
   width: 70%;
   height: 2px;
   background-color: rgb(230, 223, 223);
-  margin: 40px auto;  
+  margin: 40px auto;
 }
 /* Consistent across all modals END-------------------------------------------------------------------*/
 
@@ -594,18 +595,28 @@ button[type="submit"] {
   text-align: center;
 }
 
-.upload-icon {
-  font-size: 40px;
-  color: lightgrey;
+.photo-placeholder {
+  position: relative;
+  background-color: aliceblue;
+  height: 200px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 60px;
 }
 
 .upload-button {
+  z-index: 2;
+  position: relative;
   font-family: "Syne";
-  font-size: large;
+  font-size: medium;
   font-weight: 100;
   color: darkblue;
   background-color: lightgray;
-  width: 180px;
+  width: 150px;
   margin-top: 0px;
   padding: 10px 20px 10px 20px;
   display: flex;
@@ -622,47 +633,26 @@ button[type="submit"] {
   background-color: #ddd;
 }
 
-.inactiveconfirmModalBtn {
-  font-family: "Syne";
-  font-size: large;
-  font-weight: 100;
-  color: white;
-  background-color: lightgray !important;
-  width: 180px;
-  margin-top: 50px;
-  padding: 10px 20px 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  border-radius: 60px;
-  border: none;
+input[type="file"] {
+  display: none; /* Hide the file input */
+}
+
+.upload-icon {
+  font-size: 40px;
+  color: lightgrey;
 }
 
 .modal2Backbutton {
   position: absolute;
-  top: 20px; 
-  left: 20px; 
+  top: 20px;
+  left: 20px;
   background: none;
-  border: none; 
-  color: black; 
-  font-size: 24px; 
-  font-weight: bolder; 
-  cursor: pointer; 
-  padding: 5px; 
-}
-/*Modal 2 END --------------------------------------------------------------------------------------------*/
-
-/*Modal 2 & 3 Shared -------------------------------------------------------------------------------------*/
-.photo-placeholder {
-  background-color: aliceblue;
-  height: 200px;
-  width: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  margin-bottom: 60px;
+  border: none;
+  color: black;
+  font-size: 24px;
+  font-weight: bolder;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .form-control {
@@ -679,8 +669,26 @@ button[type="submit"] {
   align-items: center;
   justify-content: center;
   margin: 25px 0;
-  width: 600px; 
+  width: 600px;
   margin-bottom: 30px;
+}
+
+.selected-image-container {
+  position: absolute; /* Overlay the selected image */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* Ensure this is above the image upload info */
+  pointer-events: none; /* Prevent this container from blocking clicks */
+}
+
+.selected-image-container img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 #modal input[type="text"] {
@@ -722,13 +730,13 @@ button[type="submit"] {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-/*Modal 3 START ------------------------------------------------------------------------------------------*/
-.activeconfirmModalBtn[type="submit"] {
+
+.inactiveconfirmModalBtn {
   font-family: "Syne";
   font-size: large;
   font-weight: 100;
   color: white;
-  background-color: lightgray !important;
+  background-color: lightgray;
   width: 180px;
   margin-top: 50px;
   padding: 10px 20px 10px 20px;
@@ -737,19 +745,25 @@ button[type="submit"] {
   align-items: flex-end;
   border-radius: 60px;
   border: none;
+  cursor: not-allowed; /* Cursor style for inactive state */
+  opacity: 0.5; /* Lower opacity to indicate it's disabled */
 }
 
-.modal3Backbutton {
-  position: absolute;
-  top: 20px; 
-  left: 20px; 
-  background: none;
-  border: none; 
-  color: black; 
-  font-size: 24px; 
-  font-weight: bolder; 
-  cursor: pointer; 
-  padding: 5px; 
+.activeconfirmModalBtn[type="submit"] {
+  font-family: "Syne";
+  font-size: large;
+  font-weight: 100;
+  color: white;
+  background-color: darkgreen;
+  width: 180px;
+  margin-top: 50px;
+  padding: 10px 20px 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 60px;
+  border: none;
+  cursor: pointer; /* Cursor style for active state */
+  opacity: 1; /* Full opacity to indicate it's active */
 }
-
-
+/*Modal 2 END --------------------------------------------------------------------------------------------*/
