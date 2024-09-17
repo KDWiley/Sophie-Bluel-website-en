@@ -11,11 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
     fileInput.click(); //
   });
 
-  // Add event listener to the file input to display the selected image
+// Add event listener to the file input to display the selected image
   fileInput.addEventListener("change", function () {
     displaySelectedImage(this); // Call displaySelectedImage when a file is selected
   });
 });
+
+// Add event listeners to the title input and category dropdown to check their values
+  titleInput.addEventListener("input", checkConfirmButtonState); // Check state on title input change
+  categoryDropdown.addEventListener("change", checkConfirmButtonState); // Check state on category change
+
+// Add event listener to the confirm button to handle the form submission
+  confirmButton.addEventListener("click", addWorks); // Add works on confirm button click
 
 // Function to display the selected image in the modal
 function displaySelectedImage(input) {
@@ -37,10 +44,6 @@ function displaySelectedImage(input) {
   }
 }
 
-// Add event listeners to the title input and category dropdown to check their values
-  titleInput.addEventListener("input", checkConfirmButtonState); // Check state on title input change
-  categoryDropdown.addEventListener("change", checkConfirmButtonState); // Check state on category change
-
 // Function to check if all conditions are met to activate the confirm button
 function checkConfirmButtonState() {
   const isImageDisplayed = selectedImage.style.display === "block"; // Check if image is displayed
@@ -60,6 +63,57 @@ function checkConfirmButtonState() {
     confirmButton.disabled = true; // Disable the button
     confirmButton.style.cursor = "not-allowed"; // Change cursor to indicate it is disabled
   }
+}
+
+async function addWorks() {
+  let url = "http://localhost:5678/api/works"; // API endpoint URL
+  let token = localStorage.getItem("authToken"); // Get auth token from local storage
+
+  if (!token) {
+    document.getElementById("feedback").textContent =
+      "You must be logged in to make a selection.";
+    return; // Exit if the token is not available
+  }
+
+  const formData = new FormData(); 
+  formData.append("image", fileInput.files[0]);
+  formData.append("title", titleInput.value);
+  formData.append("category", categoryDropdown.value);
+
+  let options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    };
+
+  try {
+    const response = await fetch(url, options);  //Send POST request
+
+    if(response.ok) {
+      console.log("Work added successfully.");
+      const newWork = await response.json(); // Parse the response data as JSON
+      addImagetoDOM(newWork); // Add the new work to the DOM
+    } else {
+      console.error(`Failed to add work. Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// Function to add the new image to the DOM
+function addImagetoDOM(work) {
+  const imageContainer = document.createElement("div"); // Create a new div for the image container
+  imageContainer.className = "image-container"; // Assign a CSS class to the image container
+
+  const img = document.createElement("img");
+  img.src = work.imageUrl; // Set the image source to the new work's URL
+  img.alt = work.title; // Set the image alt text to the new work's title
+
+  imageContainer.appendChild(img); // Append the image to the image container
+  imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
 }
 
 // Get the image-container DOM element
@@ -404,19 +458,141 @@ document.addEventListener("DOMContentLoaded", function () {
   /*BEGINNING WORK ON POST API
 
 //SCRATCH PAPER for Modal
-//Pseudo Code:
 
-//  MODAL 1
-//  1. Click Edit button --> Modal 1 displays "modal-image-container"
-//  3. Delete button event listener removes modalImageContainer. modalImageContainer.removeChild("modal-image-container");
-//  4. Click "add a photo" to advance to Modal 2.
+//Event listener to initate addWorks POST 
 
-//  MODAL 2
-//  1. Click "Add photo" --> input type="file" id="fileInput" accept="image/*" multiple
-//  2. Selecting image advances user to Modal 3.
-//  3. Back button event listener to Modal 1
+function addWorks {
+  let url = `"http://localhost:5678/api/works";
+  let token = localStorage.getItem("authToken");
 
-//  MODAL 3
+  if (!token) {
+    document.getElementById("feedback").textContent =
+      "You must be logged in to make a selection.";
+    return; // Exit if the token is not available
+  }
+
+  let options = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the auth token in the headers
+      "Content-Type": "application/json",
+    },
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        console.log(`Work added successfully.`);
+        addeImagetoDOM(id);
+        addWorks(); // Refresh the list after add
+      } else {
+        console.error(
+          `Failed to add work. Status: ${response.status}`
+        );
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+
+  function addImagetoDOM {
+    // Select the image container with the specific data-id
+    const imageContainer = document.querySelector(
+      `modal.image-container[data-id='${id}']`
+    );
+    if (imageContainer) {
+      imageContainer.append(); // Add element to DOM
+    }
+  }
+
+
+  //could this be combined with the DELETE call? 
+  function fetchWorks() {
+    // Fetch the works (images) from the API and call looptoDisplayImages
+    fetch("http://localhost:5678/api/works", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => looptoDisplayImages(data))
+      .catch((error) => console.error("Error fetching works:", error));
+  }
+}
+
+
+
+const addWorks = document.queryselector(.activeconfirmModalBtn);
+
+addWorks.addEventListener("click", async () => {
+  const formDate = new FormData()
+    formData
+  })
+
+    activeconfirmModalBtn[.addEventListener("click", function () {
+      addWorks
+    });
+
+function addWorks {
+  let url = `"http://localhost:5678/api/works";
+  let token = localStorage.getItem("authToken");
+
+  if (!token) {
+    document.getElementById("feedback").textContent =
+      "You must be logged in to make a selection.";
+    return; // Exit if the token is not available
+  }
+
+  let options = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the auth token in the headers
+      "Content-Type": "application/json",
+    },
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        console.log(`Work added successfully.`);
+        addeImagetoDOM(id);
+        addWorks(); // Refresh the list after add
+      } else {
+        console.error(
+          `Failed to add work. Status: ${response.status}`
+        );
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+
+  function addImagetoDOM {
+    // Select the image container with the specific data-id
+    const imageContainer = document.querySelector(
+      `modal.image-container[data-id='${id}']`
+    );
+    if (imageContainer) {
+      imageContainer.append(); // Add element to DOM
+    }
+  }
+
+
+  //could this be combined with the DELETE call? 
+  function fetchWorks() {
+    // Fetch the works (images) from the API and call looptoDisplayImages
+    fetch("http://localhost:5678/api/works", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => looptoDisplayImages(data))
+      .catch((error) => console.error("Error fetching works:", error));
+  }
+}
+
+
 //  1.  Present Title --> input type="text".  Category -->  architectWorks[i].category.name;
 //  3.  Confirm button event listener adds image, category, and title
 //         imageContainer.setAttribute("data-category", category);
@@ -433,24 +609,39 @@ newWorks.addEventListener("submit", function (event) {
 
 const formData(newWorks);
 
-  // Get the input values
-  const email = emailElement.value;
-  const password = passwordElement.value;
 
-  //Creating the object used to configure the http request for authentication
-  const authenticateOptions = {
+  const worksOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       img: email,
       title: title,
-      category: category
+     category: category
+     
+const titleInput = document.querySelector(".form-control"); // Title input field
+const categoryDropdown = document.getElementById("categorySelected"); // Category dropdown
+const selectedImage = document.getElementById("selected-image"); // Image element
     }),
   };
   console.log("Authenticate options:", authenticateOptions);
 
-  //Fetch Request
-  fetch("http://localhost:5678/api/users/login", authenticateOptions)
+
+
+  const formData = newForm
+  const data = Object.fromEntries(formData);
+
+  //Fetch Request -  //Creating the object used to configure the http request for adding for newWorks
+  fetch("http://localhost:5678/api/works", {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+        },
+   body: JSON.stringify(data)
+         img: email,
+         title: title,
+         category: category
+        
+        }}
     .then(async (response) => {
       const isJson = response.headers
         .get("content-type")
