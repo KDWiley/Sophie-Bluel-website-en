@@ -167,6 +167,11 @@ function modalLooptoDisplayImages(architectWorks) {
     deleteButton.className = "delete-button";
     deleteButton.innerHTML = "🗑️";
 
+    //Event listener to the delete button
+    deleteButton.addEventListener("click", function () {
+      deleteWorks(architectWorks[i].id); // Pass the work ID to delete
+    });
+
     modalImageContainer.appendChild(img);
     modalImageContainer.appendChild(deleteButton);
     modalImagesContainerElement.appendChild(modalImageContainer);
@@ -180,6 +185,65 @@ function modalLooptoDisplayImages(architectWorks) {
     }*/
   }
 }
+
+   function deleteWorks(id) {
+      let url = `http://localhost:5678/api/works/${id}`;
+      let token = localStorage.getItem("authToken");
+
+      if (!token) {
+        document.getElementById("feedback").textContent =
+          "You must be logged in to make a selection.";
+        return; // Exit if the token is not available
+      }
+
+      let options = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the auth token in the headers
+          "Content-Type": "application/json",
+        },
+      };
+
+      fetch(url, options)
+        .then((response) => {
+          if (response.ok) {
+            console.log(`Work ID ${id} deleted successfully.`);
+            removeImageFromDOM(id);
+            fetchWorks(); // Refresh the list after deletion
+          } else {
+            console.error(
+              `Failed to delete work with ID ${id}. Status: ${response.status}`
+            );
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+
+      function removeImageFromDOM(id) {
+        // Select the image container with the specific data-id
+        const imageContainer = document.querySelector(
+          `modal.image-container[data-id='${id}']`
+        );
+        if (imageContainer) {
+          imageContainer.remove(); // Remove the element from the DOM
+        }
+      }
+
+      function fetchWorks() {
+        // Fetch the works (images) from the API and call looptoDisplayImages
+        fetch("http://localhost:5678/api/works", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => looptoDisplayImages(data))
+          .catch((error) => console.error("Error fetching works:", error));
+      }
+    }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   fetchCategories();
@@ -263,15 +327,35 @@ document.querySelector("form").addEventListener("submit", function (event) {
   });
 
 //Modal Categories for Modal 2
-//Need to create a function to take take an array of 'architectWorks' as an argument
-//function categoryDropdown.forEach(displayCategories)
+/*  
+function addWorks(id) {
+    let url = `http://localhost:5678/api/works/${id}`;
+    let token = localStorage.getItem("authToken");
+    let options = {
+        method: "DELETE",
+    };
 
-//fetch from "http://localhost:5678/api/categories";
+if (!token) {
+        document.getElementById("feedback").textContent = "You must be logged in to make a selection.";
+        return; // Exit if the token is not available
+    }
 
-//api post and delete of works will require token in local storage
-//Notes091224 word doc on desktop
+    let options = {
+        method: "DELETE",
+    };
 
+    fetch(url, options)
+        .then(response => console.log(response.status))
+        .catch(error => console.error('Error:', error));
+}
 
+deleteButton.addEventListener("click", function () {
+    const workId = getSelectedWorkId(); // You need to define a function to get the ID
+    if (workId) {
+        deleteWorks(workId);
+    } else {
+        console.error('No work ID found to delete.');
+  } */
 
 
 // Function to show a specific modal
