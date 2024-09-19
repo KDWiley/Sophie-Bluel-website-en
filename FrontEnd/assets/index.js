@@ -343,18 +343,19 @@ function modalLooptoDisplayImages(architectWorks) {
 ////////////////////////       MODAL 1 THUMBNAIL GALLERY -  END ////////////////////////////
 
 ////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  START ////////////////////////
-document.addEventListener("DOMContentLoaded", async function () {
-  await fetchCategories();
+document.addEventListener("DOMContentLoaded", function () {
+  fetchCategories();
 });
 
-async function fetchCategories() {
-  try {
-    const response = await fetch("http://localhost:5678/api/categories");
-    const data = await response.json();
-    populateCategoryDropdown(data); // Pass fetched data to populated dropdown
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-  }
+function fetchCategories() {
+  fetch("http://localhost:5678/api/categories")
+    .then((response) => response.json())
+    .then((data) => {
+      populateCategoryDropdown(data); //Pass fetched data to populated dropdown
+    })
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
 }
 
 function populateCategoryDropdown(categories) {
@@ -370,9 +371,6 @@ function populateCategoryDropdown(categories) {
     categoryDropdown.appendChild(option);
   });
 }
-
-const categoryIDElement = document.querySelector("#categoryIDSelected");
-const categoryElement = document.querySelector("#categorySelected");
 
 document.querySelector("form").addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission
@@ -399,29 +397,8 @@ document.querySelector("form").addEventListener("submit", function (event) {
     }),
   };
   console.log("CategorySelected:", categorySubmission);
-
-  //Fetch Request
-  fetch("http://localhost:5678/api/categories", categorySubmission).then(
-    async (response) => {
-      const isJson = response.headers
-        .get("content-type")
-        ?.includes("application/json");
-      console.log("Received response:", response);
-      const data = isJson && (await response.json());
-      console.log("Parsed response data:", data); // Log the parsed data
-
-      // check for error response
-      if (!response.ok) {
-        //if 200 response, do the function
-        // get error message from body or default to response status
-        const error = (data && data.message) || response.status;
-        document.getElementById("feedback").textContent = "Unexpected Error";
-        return Promise.reject(error);
-      }
-      return data; // Return the data if the response is okay
-    }
-  );
 });
+
 ////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////
 0;
 ////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START //////////////////
@@ -477,4 +454,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION - END ////////////////////
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION - END ///////////////////
