@@ -642,7 +642,7 @@ input[type="file"] {
   color: lightgrey;
 }
 
-.modal2Backbutton {
+.modalBackbutton {
   position: absolute;
   top: 20px;
   left: 20px;

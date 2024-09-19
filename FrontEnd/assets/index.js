@@ -1,30 +1,38 @@
-// Define the button and file input elements globally
+///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          ///////////////////////////
+if (localStorage.getItem("loggedIn") === "true") {
+  const editButton = document.getElementById("editButton");
+  if (editButton) {
+    editButton.classList.remove("editHidden");
+  }
+}
+
+////////////////////////         DISPLAY AN IMAGE IN MODAL 2 - START       ///////////////////////////
 const uploadButton = document.querySelector(".upload-button");
 const fileInput = document.getElementById("file-input");
-const titleInput = document.querySelector(".form-control"); // Title input field
-const categoryDropdown = document.getElementById("categorySelected"); // Category dropdown
-const confirmButton = document.querySelector(".inactiveconfirmModalBtn"); // Initially inactive confirm button
-const selectedImage = document.getElementById("selected-image"); // Image element
+const titleInput = document.querySelector(".form-control");
+const categoryDropdown = document.getElementById("categorySelected");
+const confirmButton = document.querySelector(".inactiveconfirmModalBtn");
+const selectedImage = document.getElementById("selected-image");
 
 document.addEventListener("DOMContentLoaded", function () {
   uploadButton.addEventListener("click", function () {
     fileInput.click(); //
   });
 
-// Add event listener to the file input to display the selected image
+  // Add event listener to the file input to display the selected image
   fileInput.addEventListener("change", function () {
-    displaySelectedImage(this); // Call displaySelectedImage when a file is selected
+    displaySelectedImage(fileInput); // Call displaySelectedImage when a file is selected.
   });
 });
 
 // Add event listeners to the title input and category dropdown to check their values
-  titleInput.addEventListener("input", checkConfirmButtonState); // Check state on title input change
-  categoryDropdown.addEventListener("change", checkConfirmButtonState); // Check state on category change
+titleInput.addEventListener("input", checkConfirmButtonState);
+categoryDropdown.addEventListener("change", checkConfirmButtonState);
 
-// Add event listener to the confirm button to handle the form submission
-  confirmButton.addEventListener("click", addWorks); // Add works on confirm button click
+// Green, Active Confirm Button event listener aka activeconfirmModalBtn
+confirmButton.addEventListener("click", addWorks);
 
-// Function to display the selected image in the modal
+// Function to display the selected image in Modal 2 over the +Add Photo Button
 function displaySelectedImage(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader(); // Create a new FileReader instance
@@ -34,9 +42,9 @@ function displaySelectedImage(input) {
       img.src = e.target.result; // Set the image source to the selected file
       img.style.display = "block"; // Show the image
 
-      // Disable the upload button after an image is selected
+      // Disable the upload button after an image is selected because the button kept allowing me to select it behind the image
       uploadButton.disabled = true; // Disable the button
-      uploadButton.style.cursor = "not-allowed"; // Change cursor to indicate it is disabled
+      uploadButton.style.cursor = "not-allowed";
 
       checkConfirmButtonState(); // Check confirm button state after displaying the image
     };
@@ -51,48 +59,58 @@ function checkConfirmButtonState() {
   const isCategorySelected = categoryDropdown.value !== ""; // Check if a category is selected
 
   if (isImageDisplayed && isTitleFilled && isCategorySelected) {
-    // All conditions met: activate the confirm button
+    // If all conditions met, activate the confirm button
     confirmButton.classList.remove("inactiveconfirmModalBtn");
     confirmButton.classList.add("activeconfirmModalBtn");
-    confirmButton.disabled = false; // Enable the button
+    confirmButton.disabled = false; // Enable button
     confirmButton.style.cursor = "pointer"; // Change cursor to pointer
   } else {
-    // Not all conditions met: keep the button inactive
+    // Else, keep the button inactive
     confirmButton.classList.remove("activeconfirmModalBtn");
     confirmButton.classList.add("inactiveconfirmModalBtn");
-    confirmButton.disabled = true; // Disable the button
+    confirmButton.disabled = true; // Disable button
     confirmButton.style.cursor = "not-allowed"; // Change cursor to indicate it is disabled
   }
 }
+////////////////////////        DISPLAY AN IMAGE IN MODAL 2 -  END      ///////////////////////////
 
+////////////////////////        ADD A NEW WORKS VIA MODAL - START      ////////////////////////////
 async function addWorks() {
-  let url = "http://localhost:5678/api/works"; // API endpoint URL
+  let url = "http://localhost:5678/api/works"; // POST/Works Send a new Work API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
 
   if (!token) {
     document.getElementById("feedback").textContent =
       "You must be logged in to make a selection.";
-    return; // Exit if the token is not available
+    return; 
   }
 
-  const formData = new FormData(); 
+  // Confirmation prompt
+  const userConfirmed = confirm(
+    "Are you sure you want to add this work?"
+  );
+  if (!userConfirmed) {
+    return;
+  }
+
+  const formData = new FormData();
   formData.append("image", fileInput.files[0]);
   formData.append("title", titleInput.value);
   formData.append("category", categoryDropdown.value);
 
   let options = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    };
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  };
 
   try {
-    const response = await fetch(url, options);  //Send POST request
+    const response = await fetch(url, options); //Send POST request
 
-    if(response.ok) {
-      console.log("Work added successfully.");
+    if (response.ok) {
+      console.log(`${titleInput.value} added successfully.`);
       const newWork = await response.json(); // Parse the response data as JSON
       addImagetoDOM(newWork); // Add the new work to the DOM
     } else {
@@ -115,7 +133,70 @@ function addImagetoDOM(work) {
   imageContainer.appendChild(img); // Append the image to the image container
   imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
 }
+////////////////////////        ADD A NEW WORK VIA MODAL - END      ////////////////////////////
 
+////////////////////////        DELETE A WORK VIA MODAL - START      ///////////////////////////
+async function deleteWorks(id) {
+  let url = `http://localhost:5678/api/works/${id}`; // DELETE/works/{id} Delete a work depending on id API - URL
+  let token = localStorage.getItem("authToken"); // Get auth token from local storage
+
+  if (!token) {
+    document.getElementById("feedback").textContent =
+      "You must be logged in to make a selection.";
+      return;
+  }
+
+    // Confirmation prompt
+    const userConfirmed = confirm("Are you sure you want to delete this work?");
+    if (!userConfirmed) {
+        return;
+    }
+
+    let options = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the auth token in the headers
+      },
+    };
+
+    try {
+      const response = await fetch(url, options); // Send DELETE request
+
+      if (response.ok) {
+        console.log(`Work ID ${id} deleted successfully.`);
+        removeImageFromDOM(id); // Remove the work from the DOM
+      } else {
+        console.error(
+          `Failed to delete work with ID ${id}. Status: ${response.status}`
+        );
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  // Function to remove the work from the DOM
+function removeImageFromDOM(id) {
+  
+  const imageContainer = document.querySelector(`.image-container[data-id='${id}']`);
+
+   if (imageContainer) {
+     imageContainer.remove(); // Remove the image container from the DOM
+   } else {
+     console.log(`No image container found for ID ${id}`);
+   }
+
+  const modalImageContainer = document.querySelector(`.modal-image-container[data-id='${id}']`);
+
+  if (modalImageContainer) {
+    modalImageContainer.remove(); // Remove the modal image container from the DOM
+  } else {
+    console.log(`No image container found for ID ${id}`);
+  }
+}
+////////////////////////        DELETE A WORK VIA MODAL - END    ////////////////////////////
+
+////////////////////////        DISPLAY MAIN GALLERY - START  //////////////////////////////
 // Get the image-container DOM element
 const imagesContainerElement = document.getElementById("image-container"); //container that holds all images
 
@@ -125,13 +206,6 @@ const apiURL = "http://localhost:5678/api/works";
 // Function to fetch images for main gallery
 function fetchImages(apiURL) {
   // Make the fetch call When you call fetch(apiURL), it returns a promise that resolves to a Response object.
-
-  //possible upgrade to async
-  //async function catchImages() {}
-  //const response = await fetch(apiURL);
-  //const json = await response.json();
-  //document.getElementById("image-element");
-
   return (
     fetch(apiURL) //By adding return in front of fetch(apiURL), ensures Promise is returned by fetch.
       .then((response) => {
@@ -179,8 +253,9 @@ function looptoDisplayImages(architectWorks) {
     } */
   }
 }
+////////////////////////       DISPLAY MAIN GALLERY -  END /////////////////////////////////
 
-//Function to filter main gallery
+////////////////////////       FILTER MAIN GALLERY -  START ////////////////////////////////
 function galleryFilter(filterSelected) {
   let imageContainerCollection =
     document.getElementsByClassName("image-container"); //getting all elements with class = image-container.  allows me to udpate the image-container .css class
@@ -196,21 +271,11 @@ function galleryFilter(filterSelected) {
     }
   }
 }
-
 document.addEventListener("DOMContentLoaded", () => {
-  //added 8/25
   fetchImages(apiURL); // Fetch images when the DOM is fully loaded
-
-  // Show the edit button if the user is logged in -- updated order to here 8/25
-  if (localStorage.getItem("loggedIn") === "true") {
-    const editButton = document.getElementById("editButton");
-    if (editButton) {
-      editButton.classList.remove("editHidden");
-    }
-  }
 });
 
-// // Event listeners for filter links
+// Event listeners for filter links
 function filterListeners() {
   let filterLinks = document.querySelectorAll(".filter_links a");
   filterLinks.forEach((link) => {
@@ -227,12 +292,12 @@ function filterListeners() {
     });
   });
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   filterListeners(); // Set up the event listeners for filters
 });
+////////////////////////       FILTER MAIN GALLERY - END //////////////////////////////////
 
-//Modal functionality for Modal 1 image thumbnail gallery --> Add a Delete button event listener to delete child from modal-image-container
+////////////////////////       MODAL 1 THUMBNAIL GALLERY -  START /////////////////////////
 const modalImagesContainerElement = document.getElementById(
   "modal-image-container"
 );
@@ -275,77 +340,21 @@ function modalLooptoDisplayImages(architectWorks) {
     }*/
   }
 }
+////////////////////////       MODAL 1 THUMBNAIL GALLERY -  END ////////////////////////////
 
-function deleteWorks(id) {
-  let url = `http://localhost:5678/api/works/${id}`;
-  let token = localStorage.getItem("authToken");
-
-  if (!token) {
-    document.getElementById("feedback").textContent =
-      "You must be logged in to make a selection.";
-    return; // Exit if the token is not available
-  }
-
-  let options = {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`, // Include the auth token in the headers
-      "Content-Type": "application/json",
-    },
-  };
-
-  fetch(url, options)
-    .then((response) => {
-      if (response.ok) {
-        console.log(`Work ID ${id} deleted successfully.`);
-        removeImageFromDOM(id);
-        fetchWorks(); // Refresh the list after deletion
-      } else {
-        console.error(
-          `Failed to delete work with ID ${id}. Status: ${response.status}`
-        );
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-
-  function removeImageFromDOM(id) {
-    // Select the image container with the specific data-id
-    const imageContainer = document.querySelector(
-      `modal.image-container[data-id='${id}']`
-    );
-    if (imageContainer) {
-      imageContainer.remove(); // Remove the element from the DOM
-    }
-  }
-
-  function fetchWorks() {
-    // Fetch the works (images) from the API and call looptoDisplayImages
-    fetch("http://localhost:5678/api/works", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => looptoDisplayImages(data))
-      .catch((error) => console.error("Error fetching works:", error));
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  fetchCategories();
+////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  START ////////////////////////
+document.addEventListener("DOMContentLoaded", async function () {
+  await fetchCategories();
 });
 
-function fetchCategories() {
-  fetch("http://localhost:5678/api/categories")
-    .then((response) => response.json())
-    .then((data) => {
-      populateCategoryDropdown(data); //Pass fetched data to populated dropdown
-    })
-    .catch((error) => {
-      console.error("Error fetching categories:", error);
-    });
+async function fetchCategories() {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const data = await response.json();
+    populateCategoryDropdown(data); // Pass fetched data to populated dropdown
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
 }
 
 function populateCategoryDropdown(categories) {
@@ -413,8 +422,9 @@ document.querySelector("form").addEventListener("submit", function (event) {
     }
   );
 });
-
-// Function to show a specific modal
+////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////
+0;
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START //////////////////
 const modal = document.querySelector(".modal");
 
 function showModal(modalId) {
@@ -427,7 +437,7 @@ function showModal(modalId) {
   modal.style.display = "block"; // Show the modal container
 }
 
-//Show-Hide Modals based on Event Listeners:  Edit Button = Show modal 1,
+//Show-Hide Modals based on Event Listeners
 document.addEventListener("DOMContentLoaded", function () {
   const editButton = document.getElementById("editButton");
   const addaphotoModalBtn = document.querySelector(".addaphotoModalBtn");
@@ -435,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "inactiveconfirmModalBtn"
   );
   const closeBtn = document.querySelector(".closeModalBtn");
-  const modal2Backbutton = document.querySelector(".modal2Backbutton");
+  const modalBackbutton = document.querySelector(".modalBackbutton");
 
   // Open modal 1
   editButton.addEventListener("click", function () {
@@ -450,243 +460,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   //Back Button from modal 2 to modal 1
-  modal2Backbutton.addEventListener("click", function () {
+  modalBackbutton.addEventListener("click", function () {
     showModal("modal1-content");
     console.log("Modal 1 is open");
   });
 
-  /*BEGINNING WORK ON POST API
-
-//SCRATCH PAPER for Modal
-
-//Event listener to initate addWorks POST 
-
-function addWorks {
-  let url = `"http://localhost:5678/api/works";
-  let token = localStorage.getItem("authToken");
-
-  if (!token) {
-    document.getElementById("feedback").textContent =
-      "You must be logged in to make a selection.";
-    return; // Exit if the token is not available
-  }
-
-  let options = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`, // Include the auth token in the headers
-      "Content-Type": "application/json",
-    },
-  };
-
-  fetch(url, options)
-    .then((response) => {
-      if (response.ok) {
-        console.log(`Work added successfully.`);
-        addeImagetoDOM(id);
-        addWorks(); // Refresh the list after add
-      } else {
-        console.error(
-          `Failed to add work. Status: ${response.status}`
-        );
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-
-  function addImagetoDOM {
-    // Select the image container with the specific data-id
-    const imageContainer = document.querySelector(
-      `modal.image-container[data-id='${id}']`
-    );
-    if (imageContainer) {
-      imageContainer.append(); // Add element to DOM
-    }
-  }
-
-
-  //could this be combined with the DELETE call? 
-  function fetchWorks() {
-    // Fetch the works (images) from the API and call looptoDisplayImages
-    fetch("http://localhost:5678/api/works", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => looptoDisplayImages(data))
-      .catch((error) => console.error("Error fetching works:", error));
-  }
-}
-
-
-
-const addWorks = document.queryselector(.activeconfirmModalBtn);
-
-addWorks.addEventListener("click", async () => {
-  const formDate = new FormData()
-    formData
-  })
-
-    activeconfirmModalBtn[.addEventListener("click", function () {
-      addWorks
-    });
-
-function addWorks {
-  let url = `"http://localhost:5678/api/works";
-  let token = localStorage.getItem("authToken");
-
-  if (!token) {
-    document.getElementById("feedback").textContent =
-      "You must be logged in to make a selection.";
-    return; // Exit if the token is not available
-  }
-
-  let options = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`, // Include the auth token in the headers
-      "Content-Type": "application/json",
-    },
-  };
-
-  fetch(url, options)
-    .then((response) => {
-      if (response.ok) {
-        console.log(`Work added successfully.`);
-        addeImagetoDOM(id);
-        addWorks(); // Refresh the list after add
-      } else {
-        console.error(
-          `Failed to add work. Status: ${response.status}`
-        );
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-
-  function addImagetoDOM {
-    // Select the image container with the specific data-id
-    const imageContainer = document.querySelector(
-      `modal.image-container[data-id='${id}']`
-    );
-    if (imageContainer) {
-      imageContainer.append(); // Add element to DOM
-    }
-  }
-
-
-  //could this be combined with the DELETE call? 
-  function fetchWorks() {
-    // Fetch the works (images) from the API and call looptoDisplayImages
-    fetch("http://localhost:5678/api/works", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token if needed
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => looptoDisplayImages(data))
-      .catch((error) => console.error("Error fetching works:", error));
-  }
-}
-
-
-//  1.  Present Title --> input type="text".  Category -->  architectWorks[i].category.name;
-//  3.  Confirm button event listener adds image, category, and title
-//         imageContainer.setAttribute("data-category", category);
-//             var img = document.createElement("img");
-//                  img.src = imageURL;
-//                  img.alt = title;
-//                  imageContainer.appendChild(img);
-//         imagesContainerElement.appendChild(imageContainer);
-
-const newWorks = document.querySelector("new-works");
-
-newWorks.addEventListener("submit", function (event) {
-  event.preventDefault(); // Prevent the default form submission
-
-const formData(newWorks);
-
-
-  const worksOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      img: email,
-      title: title,
-     category: category
-     
-const titleInput = document.querySelector(".form-control"); // Title input field
-const categoryDropdown = document.getElementById("categorySelected"); // Category dropdown
-const selectedImage = document.getElementById("selected-image"); // Image element
-    }),
-  };
-  console.log("Authenticate options:", authenticateOptions);
-
-
-
-  const formData = newForm
-  const data = Object.fromEntries(formData);
-
-  //Fetch Request -  //Creating the object used to configure the http request for adding for newWorks
-  fetch("http://localhost:5678/api/works", {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-        },
-   body: JSON.stringify(data)
-         img: email,
-         title: title,
-         category: category
-        
-        }}
-    .then(async (response) => {
-      const isJson = response.headers
-        .get("content-type")
-        ?.includes("application/json");
-      console.log("Received response:", response);
-      const data = isJson && (await response.json());
-      console.log("Parsed response data:", data); // Log the parsed data
-
-      // check for error response
-      if (response.status !== 200) {
-        //if 200 response, do the function
-        // get error message from body or default to response status
-        const error = (data && data.message) || response.status;
-        document.getElementById("feedback").textContent =
-          "Invalid email or password.";
-        return Promise.reject(error);
-      }
-      return data; // Return the data if the response is okay
-    })
-
-    .then((data) => {
-      const userId = data.userId;
-      const token = data.token;
-
-      if (token) {
-        console.log("Authentication successful!");
-        console.log("User ID:", userId);
-        console.log("Token:", token);
-
-        // You can store the token in local storage or use it for future requests
-        localStorage.setItem("authToken", token); // Store the token for future use
-        localStorage.setItem("loggedIn", "true");
-
-        // Redirect to the index.html page
-        window.location.href = "index.html";
-      } else {
-        console.error("No token returned from API");
-      }
-    })
-    .catch((error) => {
-      console.error("There was an error!", error); // Handle the error
-    });
-});*/
-
-  // Close modal when close button is clicked
+  // Close modal when X is clicked
   closeBtn.addEventListener("click", function () {
     modal.style.display = "none";
   });
@@ -698,3 +477,4 @@ const selectedImage = document.getElementById("selected-image"); // Image elemen
     }
   });
 });
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION - END ////////////////////
