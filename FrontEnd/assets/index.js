@@ -86,20 +86,20 @@ function checkConfirmButtonState() {
 
 ////////////////////////        ADD A NEW WORK VIA MODAL - START      ////////////////////////////
 //addWorks prompted by - confirmButton.addEventListener("click", addWorks)
-async function addWorks() {
+
+async function addWorks(event) {
+  event.preventDefault(); // Prevent default link behavior
   let url = "http://localhost:5678/api/works"; // POST/Works Send a new Work API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
 
   if (!token) {
     document.getElementById("feedback").textContent =
       "You must be logged in to make a selection.";
-    return; 
+    return;
   }
 
   // Confirmation prompt
-  const userConfirmed = confirm(
-    "Are you sure you want to add this work?"
-  );
+  const userConfirmed = confirm("Are you sure you want to add this work?");
   if (!userConfirmed) {
     return;
   }
