@@ -1,3 +1,14 @@
+//   SHOW EDIT BUTTON IF USER IS LOGGED IN        
+//   DISPLAY AN IMAGE IN MODAL 2
+//   ADD A NEW WORK VIA MODAL
+//   DELETE A WORK VIA MODAL
+//   DISPLAY MAIN GALLERY
+//   FILTER MAIN GALLERY
+//   MODAL 1 THUMBNAIL GALLERY 
+//   MODAL 2 CATEGORIES DROPDOWN
+//   SHOW SPECIFIC MODALS AND NAVIGATION
+
+///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          ///////////////////////////
 ///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          /////////////////////////////////////////////
 if (localStorage.getItem("loggedIn") === "true") {
   const editButton = document.getElementById("editButton");
@@ -74,21 +85,22 @@ function checkConfirmButtonState() {
 }
 ////////////////////////        DISPLAY AN IMAGE IN MODAL 2 -  END      //////////////////////////////////////////////
 
-////////////////////////        ADD A NEW WORKS VIA MODAL - START      ///////////////////////////////////////////////
-async function addWorks() {
+////////////////////////        ADD A NEW WORK VIA MODAL - START      ////////////////////////////
+//addWorks prompted by - confirmButton.addEventListener("click", addWorks)
+
+async function addWorks(event) {
+  event.preventDefault(); // Prevent default link behavior
   let url = "http://localhost:5678/api/works"; // POST/Works Send a new Work API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
 
   if (!token) {
     document.getElementById("feedback").textContent =
       "You must be logged in to make a selection.";
-    return; 
+    return;
   }
 
   // Confirmation prompt
-  const userConfirmed = confirm(
-    "Are you sure you want to add this work?"
-  );
+  const userConfirmed = confirm("Are you sure you want to add this work?");
   if (!userConfirmed) {
     return;
   }
@@ -112,6 +124,10 @@ async function addWorks() {
     if (response.ok) {
       console.log(`${titleInput.value} added successfully.`);
       const newWork = await response.json(); // Parse the response data as JSON
+      console.log("API response:", newWork); // Log the API response
+
+      // Ensure the function is being called
+      console.log("Calling addImagetoDOM");
       addImagetoDOM(newWork); // Add the new work to the DOM
     } else {
       console.error(`Failed to add work. Status: ${response.status}`);
@@ -123,20 +139,25 @@ async function addWorks() {
 
 // Function to add the new image to the DOM
 function addImagetoDOM(work) {
-  const imageContainer = document.createElement("div"); // Create a new div for the image container
-  imageContainer.className = "image-container"; // Assign a CSS class to the image container
+  console.log("Work object received:", work); // Log the entire work object for debugging
+  const imageContainer = document.createElement("div");
+  imageContainer.className = "image-container";
+
+  // Set the data-id attribute to the newly added work's ID
+  imageContainer.setAttribute("data-id", work.id);
 
   const img = document.createElement("img");
   img.src = work.imageUrl; // Set the image source to the new work's URL
   img.alt = work.title; // Set the image alt text to the new work's title
+  img.id = work.id; 
 
   imageContainer.appendChild(img); // Append the image to the image container
   imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
 }
+////////////////////////        ADD A NEW WORK VIA MODAL - END      ////////////////////////////
 
-////////////////////////        ADD A NEW WORK VIA MODAL - END      //////////////////////////////////////////////////
-
-////////////////////////        DELETE A WORK VIA MODAL - START      /////////////////////////////////////////////////
+////////////////////////        DELETE A WORK VIA MODAL - START      ///////////////////////////
+//deleteWorks prompted by Delete Button event listener in modal gallery section
 async function deleteWorks(id) {
   let url = `http://localhost:5678/api/works/${id}`; // DELETE/works/{id} Delete a work depending on id API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
@@ -144,28 +165,31 @@ async function deleteWorks(id) {
   if (!token) {
     document.getElementById("feedback").textContent =
       "You must be logged in to make a selection.";
-      return;
+    return;
   }
-    
-    // Confirmation prompt
-    const userConfirmed = confirm("Are you sure you want to delete this work?");
-    if (!userConfirmed) {
-        return;
-    }
 
-    let options = {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the auth token in the headers
-      },
-    };
+  // Remove the work from the DOM first
+  removeImageFromDOM(id);
 
-    try {
-      const response = await fetch(url, options); // Send DELETE request
+  // Confirmation prompt
+  const userConfirmed = confirm("Are you sure you want to delete this work?");
+  if (!userConfirmed) {
+    return;
+  }
+
+  let options = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`, // Include the auth token in the headers
+    },
+  };
+
+  try {
+    const response = await fetch(url, options); // Send DELETE request
 
       if (response.ok) {
         console.log(`Work ID ${id} deleted successfully.`);
-
+        removeImageFromDOM(id); // Remove the work from the DOM
       } else {
         console.error(
           `Failed to delete work with ID ${id}. Status: ${response.status}`
@@ -178,21 +202,24 @@ async function deleteWorks(id) {
 
   // Function to remove the work from the DOM
 function removeImageFromDOM(id) {
-  
+  console.log(`Looking for .image-container with data-id='${id}'`);
   const imageContainer = document.querySelector(`.image-container[data-id='${id}']`);
-
+  console.log(imageContainer); // for debugging
    if (imageContainer) {
      imageContainer.remove(); // Remove the image container from the DOM
+     console.log(`Image container with ID ${id} removed from the DOM.`);
    } else {
      console.log(`No image container found for ID ${id}`);
    }
 
+  console.log(`Looking for .modal-image-container with data-id='${id}'`);
   const modalImageContainer = document.querySelector(`.modal-image-container[data-id='${id}']`);
-
+  console.log(imageContainer); // for debugging
   if (modalImageContainer) {
     modalImageContainer.remove(); // Remove the modal image container from the DOM
+    console.log(`Modal image container with ID ${id} removed from the DOM.`);
   } else {
-    console.log(`No image container found for ID ${id}`);
+    console.log(`No modal image container found for ID ${id}`);
   }
 }
 ////////////////////////        DELETE A WORK VIA MODAL - END    ////////////////////////////////////////////////////////
@@ -236,12 +263,13 @@ function looptoDisplayImages(architectWorks) {
     let title = architectWorks[i].title;
     let category = architectWorks[i].category.name;
     let categoryId = architectWorks[i].categoryId;
-    let id = architectWorks[i].Id;
+    let id = architectWorks[i].id;
 
     var imageContainer = document.createElement("div"); //creating a div
     imageContainer.className = "image-container"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
     imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
     imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+    imageContainer.setAttribute("data-id", id); //setting the id attribute to the image container div
     imageContainer.setAttribute("data-id", id); //setting the Id attribute to the image container div
 
     var img = document.createElement("img");
@@ -311,12 +339,14 @@ function modalLooptoDisplayImages(architectWorks) {
     let title = architectWorks[i].title;
     let category = architectWorks[i].category.name;
     let categoryId = architectWorks[i].categoryId;
+    let id = architectWorks[i].id;
     let id = architectWorks[i].Id;
 
     var modalImageContainer = document.createElement("div"); //creating a div
     modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
     modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
     modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
+    modalImageContainer.setAttribute("data-id", id); //setting the id attribute to the image container div
     modalImageContainer.setAttribute("data-id", id); //setting the Id attribute to the modal image container div
 
     var img = document.createElement("img");
@@ -329,7 +359,7 @@ function modalLooptoDisplayImages(architectWorks) {
 
     //Event listener to the delete button
     deleteButton.addEventListener("click", function () {
-      deleteWorks(architectWorks[i].id); // Pass the work ID to delete
+      deleteWorks(architectWorks[i].id);
     });
 
     modalImageContainer.appendChild(img);
@@ -359,7 +389,7 @@ function fetchCategories() {
       populateCategoryDropdown(data); //Pass fetched data to populated dropdown
     })
     .catch((error) => {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching categories:", error.message);
     });
 }
 
@@ -405,7 +435,9 @@ document.querySelector("form").addEventListener("submit", function (event) {
 });
 ////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////////////////////////////////////
 
-////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START ///////////////////////////////////////////////////
+////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////
+0;
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START //////////////////
 const modal = document.querySelector(".modal");
 
 function showModal(modalId) {

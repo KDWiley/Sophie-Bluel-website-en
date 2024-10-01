@@ -432,7 +432,7 @@ label[for="loginPassword"] {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-button[type="submit"] {
+button[type="button"] {
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -749,7 +749,7 @@ input[type="file"] {
   opacity: 0.5; /* Lower opacity to indicate it's disabled */
 }
 
-.activeconfirmModalBtn[type="submit"] {
+.activeconfirmModalBtn[type="button"] {
   font-family: "Syne";
   font-size: large;
   font-weight: 100;
