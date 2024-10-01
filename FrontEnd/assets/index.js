@@ -1,4 +1,4 @@
-///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          ///////////////////////////
+///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          /////////////////////////////////////////////
 if (localStorage.getItem("loggedIn") === "true") {
   const editButton = document.getElementById("editButton");
   if (editButton) {
@@ -6,7 +6,7 @@ if (localStorage.getItem("loggedIn") === "true") {
   }
 }
 
-////////////////////////         DISPLAY AN IMAGE IN MODAL 2 - START       ///////////////////////////
+////////////////////////         DISPLAY AN IMAGE IN MODAL 2 - START       ////////////////////////////////////////////
 const uploadButton = document.querySelector(".upload-button");
 const fileInput = document.getElementById("file-input");
 const titleInput = document.querySelector(".form-control");
@@ -72,9 +72,9 @@ function checkConfirmButtonState() {
     confirmButton.style.cursor = "not-allowed"; // Change cursor to indicate it is disabled
   }
 }
-////////////////////////        DISPLAY AN IMAGE IN MODAL 2 -  END      ///////////////////////////
+////////////////////////        DISPLAY AN IMAGE IN MODAL 2 -  END      //////////////////////////////////////////////
 
-////////////////////////        ADD A NEW WORKS VIA MODAL - START      ////////////////////////////
+////////////////////////        ADD A NEW WORKS VIA MODAL - START      ///////////////////////////////////////////////
 async function addWorks() {
   let url = "http://localhost:5678/api/works"; // POST/Works Send a new Work API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
@@ -133,9 +133,10 @@ function addImagetoDOM(work) {
   imageContainer.appendChild(img); // Append the image to the image container
   imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
 }
-////////////////////////        ADD A NEW WORK VIA MODAL - END      ////////////////////////////
 
-////////////////////////        DELETE A WORK VIA MODAL - START      ///////////////////////////
+////////////////////////        ADD A NEW WORK VIA MODAL - END      //////////////////////////////////////////////////
+
+////////////////////////        DELETE A WORK VIA MODAL - START      /////////////////////////////////////////////////
 async function deleteWorks(id) {
   let url = `http://localhost:5678/api/works/${id}`; // DELETE/works/{id} Delete a work depending on id API - URL
   let token = localStorage.getItem("authToken"); // Get auth token from local storage
@@ -145,7 +146,7 @@ async function deleteWorks(id) {
       "You must be logged in to make a selection.";
       return;
   }
-
+    
     // Confirmation prompt
     const userConfirmed = confirm("Are you sure you want to delete this work?");
     if (!userConfirmed) {
@@ -164,7 +165,7 @@ async function deleteWorks(id) {
 
       if (response.ok) {
         console.log(`Work ID ${id} deleted successfully.`);
-        removeImageFromDOM(id); // Remove the work from the DOM
+
       } else {
         console.error(
           `Failed to delete work with ID ${id}. Status: ${response.status}`
@@ -194,9 +195,9 @@ function removeImageFromDOM(id) {
     console.log(`No image container found for ID ${id}`);
   }
 }
-////////////////////////        DELETE A WORK VIA MODAL - END    ////////////////////////////
+////////////////////////        DELETE A WORK VIA MODAL - END    ////////////////////////////////////////////////////////
 
-////////////////////////        DISPLAY MAIN GALLERY - START  //////////////////////////////
+////////////////////////        DISPLAY MAIN GALLERY - START  ///////////////////////////////////////////////////////////
 // Get the image-container DOM element
 const imagesContainerElement = document.getElementById("image-container"); //container that holds all images
 
@@ -235,11 +236,13 @@ function looptoDisplayImages(architectWorks) {
     let title = architectWorks[i].title;
     let category = architectWorks[i].category.name;
     let categoryId = architectWorks[i].categoryId;
+    let id = architectWorks[i].Id;
 
     var imageContainer = document.createElement("div"); //creating a div
     imageContainer.className = "image-container"; //assign a CSS class to the image container.  Assigning the string "image-container" to the className property of imageContainer
     imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
     imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
+    imageContainer.setAttribute("data-id", id); //setting the Id attribute to the image container div
 
     var img = document.createElement("img");
     img.src = imageURL;
@@ -253,9 +256,9 @@ function looptoDisplayImages(architectWorks) {
     } */
   }
 }
-////////////////////////       DISPLAY MAIN GALLERY -  END /////////////////////////////////
+////////////////////////       DISPLAY MAIN GALLERY -  END /////////////////////////////////////////////////////////////
 
-////////////////////////       FILTER MAIN GALLERY -  START ////////////////////////////////
+////////////////////////       FILTER MAIN GALLERY -  START ////////////////////////////////////////////////////////////
 function galleryFilter(filterSelected) {
   let imageContainerCollection =
     document.getElementsByClassName("image-container"); //getting all elements with class = image-container.  allows me to udpate the image-container .css class
@@ -295,9 +298,9 @@ function filterListeners() {
 document.addEventListener("DOMContentLoaded", () => {
   filterListeners(); // Set up the event listeners for filters
 });
-////////////////////////       FILTER MAIN GALLERY - END //////////////////////////////////
+////////////////////////       FILTER MAIN GALLERY - END /////////////////////////////////////////////////////////////
 
-////////////////////////       MODAL 1 THUMBNAIL GALLERY -  START /////////////////////////
+////////////////////////       MODAL 1 THUMBNAIL GALLERY -  START ////////////////////////////////////////////////////
 const modalImagesContainerElement = document.getElementById(
   "modal-image-container"
 );
@@ -308,11 +311,13 @@ function modalLooptoDisplayImages(architectWorks) {
     let title = architectWorks[i].title;
     let category = architectWorks[i].category.name;
     let categoryId = architectWorks[i].categoryId;
+    let id = architectWorks[i].Id;
 
     var modalImageContainer = document.createElement("div"); //creating a div
     modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
     modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
     modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
+    modalImageContainer.setAttribute("data-id", id); //setting the Id attribute to the modal image container div
 
     var img = document.createElement("img");
     img.src = imageURL;
@@ -340,9 +345,9 @@ function modalLooptoDisplayImages(architectWorks) {
     }*/
   }
 }
-////////////////////////       MODAL 1 THUMBNAIL GALLERY -  END ////////////////////////////
+////////////////////////       MODAL 1 THUMBNAIL GALLERY -  END //////////////////////////////////////////////////////
 
-////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  START ////////////////////////
+////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  START //////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", function () {
   fetchCategories();
 });
@@ -398,10 +403,9 @@ document.querySelector("form").addEventListener("submit", function (event) {
   };
   console.log("CategorySelected:", categorySubmission);
 });
+////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////////////////////////////////////
 
-////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////
-0;
-////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START //////////////////
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START ///////////////////////////////////////////////////
 const modal = document.querySelector(".modal");
 
 function showModal(modalId) {
@@ -454,4 +458,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION - END ///////////////////
+////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION - END //////////////////////////////////////////////////////
