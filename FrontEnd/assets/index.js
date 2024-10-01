@@ -1,14 +1,13 @@
-//   SHOW EDIT BUTTON IF USER IS LOGGED IN        
+//   SHOW EDIT BUTTON IF USER IS LOGGED IN
 //   DISPLAY AN IMAGE IN MODAL 2
 //   ADD A NEW WORK VIA MODAL
 //   DELETE A WORK VIA MODAL
 //   DISPLAY MAIN GALLERY
 //   FILTER MAIN GALLERY
-//   MODAL 1 THUMBNAIL GALLERY 
+//   MODAL 1 THUMBNAIL GALLERY
 //   MODAL 2 CATEGORIES DROPDOWN
 //   SHOW SPECIFIC MODALS AND NAVIGATION
 
-///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          ///////////////////////////
 ///////////////////        SHOW EDIT BUTTON IF USER IS LOGGED IN          /////////////////////////////////////////////
 if (localStorage.getItem("loggedIn") === "true") {
   const editButton = document.getElementById("editButton");
@@ -126,15 +125,41 @@ async function addWorks(event) {
       const newWork = await response.json(); // Parse the response data as JSON
       console.log("API response:", newWork); // Log the API response
 
-      // Ensure the function is being called
       console.log("Calling addImagetoDOM");
       addImagetoDOM(newWork); // Add the new work to the DOM
+
+      // Clear the modal selections
+      clearModalSelections();
+
     } else {
       console.error(`Failed to add work. Status: ${response.status}`);
     }
   } catch (error) {
     console.error("Error:", error);
   }
+}
+
+// Function to clear modal selections after adding a new work
+function clearModalSelections() {
+  // Clear the image preview
+  selectedImage.src = "";
+  selectedImage.style.display = "none";
+
+  // Re-enable the upload button
+  uploadButton.disabled = false;
+  uploadButton.style.cursor = "pointer";
+
+  // Clear the title input
+  titleInput.value = "";
+
+  // Reset the category dropdown
+  categoryDropdown.value = "";
+
+  // Disable the confirm button
+  confirmButton.classList.remove("activeconfirmModalBtn");
+  confirmButton.classList.add("inactiveconfirmModalBtn");
+  confirmButton.disabled = true;
+  confirmButton.style.cursor = "not-allowed";
 }
 
 // Function to add the new image to the DOM
@@ -149,10 +174,30 @@ function addImagetoDOM(work) {
   const img = document.createElement("img");
   img.src = work.imageUrl; // Set the image source to the new work's URL
   img.alt = work.title; // Set the image alt text to the new work's title
-  img.id = work.id; 
+  img.id = work.id;
 
   imageContainer.appendChild(img); // Append the image to the image container
   imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
+
+  // Update modal gallery
+  const modalImageContainer = document.createElement("div");
+  modalImageContainer.className = "modal-image-container";
+  modalImageContainer.setAttribute("data-id", work.id);
+
+  const modalImg = document.createElement("img");
+  modalImg.src = work.imageUrl;
+  modalImg.alt = work.title;
+
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "delete-button";
+  deleteButton.innerHTML = "🗑️";
+  deleteButton.addEventListener("click", function () {
+    deleteWorks(work.id);
+  });
+
+  modalImageContainer.appendChild(modalImg);
+  modalImageContainer.appendChild(deleteButton);
+  modalImagesContainerElement.appendChild(modalImageContainer);
 }
 ////////////////////////        ADD A NEW WORK VIA MODAL - END      ////////////////////////////
 
@@ -187,33 +232,37 @@ async function deleteWorks(id) {
   try {
     const response = await fetch(url, options); // Send DELETE request
 
-      if (response.ok) {
-        console.log(`Work ID ${id} deleted successfully.`);
-        removeImageFromDOM(id); // Remove the work from the DOM
-      } else {
-        console.error(
-          `Failed to delete work with ID ${id}. Status: ${response.status}`
-        );
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    if (response.ok) {
+      console.log(`Work ID ${id} deleted successfully.`);
+      removeImageFromDOM(id); // Remove the work from the DOM
+    } else {
+      console.error(
+        `Failed to delete work with ID ${id}. Status: ${response.status}`
+      );
     }
+  } catch (error) {
+    console.error("Error:", error);
   }
+}
 
-  // Function to remove the work from the DOM
+// Function to remove the work from the DOM
 function removeImageFromDOM(id) {
   console.log(`Looking for .image-container with data-id='${id}'`);
-  const imageContainer = document.querySelector(`.image-container[data-id='${id}']`);
+  const imageContainer = document.querySelector(
+    `.image-container[data-id='${id}']`
+  );
   console.log(imageContainer); // for debugging
-   if (imageContainer) {
-     imageContainer.remove(); // Remove the image container from the DOM
-     console.log(`Image container with ID ${id} removed from the DOM.`);
-   } else {
-     console.log(`No image container found for ID ${id}`);
-   }
+  if (imageContainer) {
+    imageContainer.remove(); // Remove the image container from the DOM
+    console.log(`Image container with ID ${id} removed from the DOM.`);
+  } else {
+    console.log(`No image container found for ID ${id}`);
+  }
 
   console.log(`Looking for .modal-image-container with data-id='${id}'`);
-  const modalImageContainer = document.querySelector(`.modal-image-container[data-id='${id}']`);
+  const modalImageContainer = document.querySelector(
+    `.modal-image-container[data-id='${id}']`
+  );
   console.log(imageContainer); // for debugging
   if (modalImageContainer) {
     modalImageContainer.remove(); // Remove the modal image container from the DOM
@@ -270,7 +319,6 @@ function looptoDisplayImages(architectWorks) {
     imageContainer.setAttribute("data-category", category); //setting the category attribute to the image container div
     imageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the image container div
     imageContainer.setAttribute("data-id", id); //setting the id attribute to the image container div
-    imageContainer.setAttribute("data-id", id); //setting the Id attribute to the image container div
 
     var img = document.createElement("img");
     img.src = imageURL;
@@ -340,13 +388,11 @@ function modalLooptoDisplayImages(architectWorks) {
     let category = architectWorks[i].category.name;
     let categoryId = architectWorks[i].categoryId;
     let id = architectWorks[i].id;
-    let id = architectWorks[i].Id;
 
     var modalImageContainer = document.createElement("div"); //creating a div
     modalImageContainer.className = "modal-image-container"; //assign a CSS class to the modal image container.  Assigning the string "modal-image-container" to the className property of imageContainer
     modalImageContainer.setAttribute("data-category", category); //setting the category attribute to the modal image container div
     modalImageContainer.setAttribute("data-category-id", categoryId); //setting the categoryId attribute to the modal image container div
-    modalImageContainer.setAttribute("data-id", id); //setting the id attribute to the image container div
     modalImageContainer.setAttribute("data-id", id); //setting the Id attribute to the modal image container div
 
     var img = document.createElement("img");
