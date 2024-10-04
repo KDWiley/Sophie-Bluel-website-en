@@ -164,25 +164,26 @@ function clearModalSelections() {
 
 // Function to add the new image to the DOM
 function addImagetoDOM(work) {
-  console.log("Work object received:", work); // Log the entire work object for debugging
   const imageContainer = document.createElement("div");
   imageContainer.className = "image-container";
 
   // Set the data-id attribute to the newly added work's ID
   imageContainer.setAttribute("data-id", work.id);
+  imageContainer.setAttribute("data-category", work.category);
 
   const img = document.createElement("img");
   img.src = work.imageUrl; // Set the image source to the new work's URL
   img.alt = work.title; // Set the image alt text to the new work's title
   img.id = work.id;
 
-  imageContainer.appendChild(img); // Append the image to the image container
-  imagesContainerElement.appendChild(imageContainer); // Append the image container to the gallery
+  imageContainer.appendChild(img); 
+  imagesContainerElement.appendChild(imageContainer); 
 
   // Update modal gallery
   const modalImageContainer = document.createElement("div");
   modalImageContainer.className = "modal-image-container";
   modalImageContainer.setAttribute("data-id", work.id);
+  modalImageContainer.setAttribute("data-category", work.category);
 
   const modalImg = document.createElement("img");
   modalImg.src = work.imageUrl;
@@ -366,7 +367,7 @@ function filterListeners() {
       let filter = this.getAttribute("data-filter");
       console.log("Filter selected:", filter);
       console.log("Clicked element:", this);
-      //       // Call the galleryFilter function with the selected filter
+      // Call the galleryFilter function with the selected filter
       galleryFilter(filter);
     });
   });
@@ -481,8 +482,6 @@ document.querySelector("form").addEventListener("submit", function (event) {
 });
 ////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////////////////////////////////////
 
-////////////////////////       MODAL 2 CATEGORIES DROPDOWN -  END ////////////////////////
-0;
 ////////////////////////  SHOW SPECIFIC MODALS AND NAVIGATION -  START //////////////////
 const modal = document.querySelector(".modal");
 
@@ -500,9 +499,7 @@ function showModal(modalId) {
 document.addEventListener("DOMContentLoaded", function () {
   const editButton = document.getElementById("editButton");
   const addaphotoModalBtn = document.querySelector(".addaphotoModalBtn");
-  const inactiveconfirmModalBtn = document.querySelector(
-    "inactiveconfirmModalBtn"
-  );
+  const inactiveconfirmModalBtn = document.querySelector("inactiveconfirmModalBtn");
   const closeBtn = document.querySelector(".closeModalBtn");
   const modalBackbutton = document.querySelector(".modalBackbutton");
 
